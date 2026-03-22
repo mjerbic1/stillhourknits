@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Morrowfield Sweater — Still Hour Knits</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ivory:#f8f2e8;--linen:#eeddd0;--parchment:#e4cfc0;--warm:#d4b898;--rose:#b07880;--rose-lt:#ccb0b0;--rose-fnt:rgba(176,120,128,.18);--ink:#3a2428;--muted:rgba(58,36,40,.52);--faint:rgba(58,36,40,.1);--fainter:rgba(58,36,40,.06)}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--ivory);color:var(--ink);font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:22px 60px;background:linear-gradient(to bottom,rgba(248,242,232,.97) 0%,rgba(248,242,232,0) 100%)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;letter-spacing:.16em;color:var(--ink);text-decoration:none}
+.logo em{font-style:italic;color:var(--rose)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--rose)}
+.breadcrumb{padding:108px 72px 0;display:flex;align-items:center;gap:10px}
+.breadcrumb a{font-size:9px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.breadcrumb a:hover{color:var(--rose)}
+.breadcrumb-sep{font-size:9px;color:var(--parchment)}
+.breadcrumb span{font-size:9px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--rose)}
+.pattern-hero{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:40px 72px 0;align-items:start}
+.ph-image{position:relative;overflow:hidden;background:var(--linen)}
+.ph-image canvas{width:100%;display:block}
+.ph-tag{position:absolute;top:16px;left:16px;background:rgba(248,242,232,.9);backdrop-filter:blur(4px);font-size:8px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);padding:4px 10px;border:1px solid var(--rose-fnt)}
+.ph-coming{position:absolute;top:16px;right:16px;background:var(--ink);font-size:8px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--ivory);padding:5px 12px}
+.ph-info{padding:0 0 0 56px;display:flex;flex-direction:column}
+.ph-eyebrow{font-size:9px;font-weight:300;letter-spacing:.36em;text-transform:uppercase;color:var(--rose);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.ph-eyebrow::before{content:'';width:24px;height:1px;background:var(--rose)}
+.ph-info h1{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,4vw,60px);font-weight:300;line-height:1.04;color:var(--ink);margin-bottom:8px}
+.ph-info h1 em{font-style:italic;color:var(--rose)}
+.ph-subtitle{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;font-weight:300;color:var(--muted);margin-bottom:28px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--faint);margin-bottom:36px;border:1px solid var(--faint)}
+.spec{background:var(--ivory);padding:16px 18px}
+.spec-label{font-size:8px;font-weight:300;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.spec-val{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:var(--ink)}
+.difficulty{margin-bottom:32px}
+.diff-label{font-size:8px;font-weight:300;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.diff-dots{display:flex;gap:6px;align-items:center}
+.diff-dot{width:10px;height:10px;border-radius:50%;background:var(--parchment)}
+.diff-dot.filled{background:var(--rose)}
+.diff-text{font-size:10px;font-weight:300;letter-spacing:.14em;color:var(--rose);margin-left:10px}
+.ph-desc{font-size:13px;font-weight:300;line-height:1.92;color:var(--muted);letter-spacing:.02em;margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid var(--faint)}
+.notify-wrap{display:flex;flex-direction:column;gap:10px}
+.btn-notify{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--ink);color:var(--ivory);font-family:'Jost',sans-serif;font-size:10px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;padding:16px 32px;border:none;cursor:pointer;transition:background .3s;width:100%}
+.btn-notify:hover{background:var(--rose)}
+.btn-save{display:flex;align-items:center;justify-content:center;gap:12px;background:transparent;color:var(--ink);font-family:'Jost',sans-serif;font-size:10px;font-weight:300;letter-spacing:.3em;text-transform:uppercase;padding:14px 32px;border:1px solid var(--faint);cursor:pointer;transition:all .3s;width:100%}
+.btn-save:hover{border-color:var(--rose);color:var(--rose)}
+.notify-note{font-size:10px;font-weight:300;letter-spacing:.04em;color:var(--muted);text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic}
+.divider{display:flex;align-items:center;gap:16px;padding:0 72px}
+.dl{flex:1;height:1px;background:var(--faint)}
+.ds{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--rose-lt);opacity:.7}
+.pattern-details{padding:80px 72px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;border-bottom:1px solid var(--faint)}
+.pd-block h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink);margin-bottom:18px}
+.pd-block h3 em{font-style:italic;color:var(--rose)}
+.pd-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+.pd-list li{font-size:12.5px;font-weight:300;line-height:1.7;color:var(--muted);letter-spacing:.02em;padding-left:16px;position:relative}
+.pd-list li::before{content:'—';position:absolute;left:0;color:var(--rose-lt);font-size:11px}
+.construction{padding:80px 72px;background:var(--linen);border-bottom:1px solid var(--faint)}
+.con-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px}
+.con-title{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;line-height:1.1;color:var(--ink)}
+.con-title em{font-style:italic;color:var(--rose)}
+.con-note{font-size:10px;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);max-width:200px;text-align:right;line-height:1.7}
+.con-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--parchment)}
+.step{background:var(--linen);padding:32px 28px}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:11px;font-style:italic;color:var(--rose);margin-bottom:12px;display:block}
+.step-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--ink);margin-bottom:10px}
+.step-desc{font-size:12px;font-weight:300;line-height:1.8;color:var(--muted);letter-spacing:.02em}
+.sizing{padding:80px 72px;border-bottom:1px solid var(--faint)}
+.sizing h2{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:var(--ink);margin-bottom:8px}
+.sizing h2 em{font-style:italic;color:var(--rose)}
+.sizing-note{font-size:12px;font-weight:300;color:var(--muted);letter-spacing:.02em;margin-bottom:40px}
+.size-table{width:100%;border-collapse:collapse}
+.size-table th{font-size:9px;font-weight:300;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);padding:12px 16px;text-align:left;border-bottom:1px solid var(--faint);background:var(--linen)}
+.size-table td{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--ink);padding:14px 16px;border-bottom:1px solid var(--fainter)}
+.size-table tr:hover td{background:var(--linen)}
+.size-badge{display:inline-block;background:var(--rose-fnt);color:var(--rose);font-size:8px;font-family:'Jost',sans-serif;letter-spacing:.18em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--rose-fnt)}
+.yarn-rec{padding:80px 72px;background:var(--ink);color:var(--ivory)}
+.yr-label{font-size:9px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.yr-label::before{content:'';width:28px;height:1px;background:var(--rose)}
+.yr-title{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;line-height:1.1;color:var(--ivory);margin-bottom:48px}
+.yr-title em{font-style:italic;color:var(--rose)}
+.yr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(248,242,232,.08)}
+.yc{background:var(--ink);padding:36px 32px}
+.yc-type{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--rose);margin-bottom:12px;display:block}
+.yc-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ivory);margin-bottom:10px}
+.yc-desc{font-size:12px;font-weight:300;line-height:1.8;color:rgba(248,242,232,.5);letter-spacing:.02em}
+.more{padding:80px 72px}
+.more-hdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px}
+.more-title{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--ink)}
+.more-title em{font-style:italic;color:var(--rose)}
+.more-link{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid var(--faint);padding-bottom:4px;transition:all .3s}
+.more-link:hover{color:var(--rose);border-bottom-color:var(--rose)}
+.more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mc{cursor:pointer;background:var(--linen);overflow:hidden;text-decoration:none;display:block}
+.mc:hover .mc-canvas{transform:scale(1.04)}
+.mc-img{overflow:hidden;aspect-ratio:4/3;position:relative}
+.mc-canvas{width:100%;height:100%;display:block;transition:transform .6s ease}
+.mc-tag{position:absolute;top:12px;left:12px;background:rgba(248,242,232,.88);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);padding:3px 8px;border:1px solid var(--rose-fnt)}
+.mc-info{padding:14px 12px 10px}
+.mc-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--ink);margin-bottom:4px}
+.mc-meta{font-size:10px;font-weight:300;letter-spacing:.1em;color:var(--muted)}
+footer{background:var(--ink);padding:60px 72px 36px}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr;gap:72px;padding-bottom:42px;border-bottom:1px solid rgba(248,242,232,.08)}
+.ft-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:.1em;margin-bottom:14px;color:var(--ivory)}
+.ft-brand em{font-style:italic;color:var(--rose)}
+.ft-tag{font-size:12px;font-weight:300;line-height:1.9;color:rgba(248,242,232,.35);max-width:280px;letter-spacing:.02em}
+.ft-col h4{font-size:8px;font-weight:300;letter-spacing:.32em;text-transform:uppercase;color:var(--rose);margin-bottom:18px}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.ft-col a{font-size:12px;font-weight:300;letter-spacing:.06em;color:rgba(248,242,232,.38);text-decoration:none;transition:color .3s}
+.ft-col a:hover{color:var(--ivory)}
+.ft-btm{display:flex;justify-content:space-between;align-items:center;padding-top:28px}
+.ft-copy{font-size:10px;font-weight:300;letter-spacing:.08em;color:rgba(248,242,232,.22)}
+.ft-copy em{font-style:italic;font-family:'Cormorant Garamond',serif}
+.fu{opacity:0;transform:translateY(20px);transition:opacity .85s ease,transform .85s ease}
+.fu.vis{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">Still <em>Hour</em> Knits</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Patterns</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="index.html">Journal</a></li>
+    <li><a href="index.html">Contact</a></li>
+  </ul>
+</nav>
+<div class="breadcrumb">
+  <a href="index.html">Home</a><span class="breadcrumb-sep">/</span>
+  <a href="index.html">Patterns</a><span class="breadcrumb-sep">/</span>
+  <span>The Morrowfield Sweater</span>
+</div>
+<div class="pattern-hero fu">
+  <div class="ph-image">
+    <canvas id="mainC"></canvas>
+    <div class="ph-tag">Sweater</div>
+    <div class="ph-coming">Coming soon</div>
+  </div>
+  <div class="ph-info">
+    <div class="ph-eyebrow">Adult pattern</div>
+    <h1>The Morrowfield<br><em>Sweater</em></h1>
+    <p class="ph-subtitle">A cozy, textured top-down raglan</p>
+    <div class="specs">
+      <div class="spec"><div class="spec-label">Yarn weight</div><div class="spec-val">Bulky (weight 5)</div></div>
+      <div class="spec"><div class="spec-label">Needle size</div><div class="spec-val">6.0 mm / US 10</div></div>
+      <div class="spec"><div class="spec-label">Gauge</div><div class="spec-val">14 sts × 18 rows / 10 cm</div></div>
+      <div class="spec"><div class="spec-label">Finished length</div><div class="spec-val">~58–65 cm</div></div>
+      <div class="spec"><div class="spec-label">Construction</div><div class="spec-val">Top-down, seamless</div></div>
+      <div class="spec"><div class="spec-label">Yarn quantity</div><div class="spec-val">350–600 g</div></div>
+    </div>
+    <div class="difficulty">
+      <div class="diff-label">Difficulty</div>
+      <div class="diff-dots">
+        <div class="diff-dot filled"></div><div class="diff-dot filled"></div><div class="diff-dot filled"></div>
+        <div class="diff-dot"></div><div class="diff-dot"></div>
+        <span class="diff-text">Intermediate</span>
+      </div>
+    </div>
+    <p class="ph-desc">The Morrowfield is a relaxed, oversized sweater worked top-down in a seamless raglan. The body features a simple waffle texture that adds depth without demanding complex techniques. It is the kind of sweater you reach for every morning — warm, easy to wear, and satisfying to knit. Designed for sizes XS to 3XL with full graded instructions at every size.</p>
+    <div class="notify-wrap">
+      <button class="btn-notify">Notify me when available</button>
+      <button class="btn-save">Save to wishlist</button>
+      <p class="notify-note">You will receive one email when this pattern launches. No spam.</p>
+    </div>
+  </div>
+</div>
+<div style="height:64px"></div>
+<div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
+<div class="pattern-details fu">
+  <div class="pd-block">
+    <h3>What you'll <em>need</em></h3>
+    <ul class="pd-list">
+      <li>6.0 mm circular needle, 80 cm or longer</li>
+      <li>6.0 mm DPNs or magic loop for sleeves</li>
+      <li>Stitch markers (8 recommended)</li>
+      <li>Tapestry needle for finishing</li>
+      <li>Scissors</li>
+      <li>Measuring tape</li>
+    </ul>
+  </div>
+  <div class="pd-block">
+    <h3>Techniques <em>used</em></h3>
+    <ul class="pd-list">
+      <li>Long-tail cast on</li>
+      <li>Raglan increases (M1L, M1R)</li>
+      <li>Waffle stitch texture</li>
+      <li>Picking up sleeve stitches</li>
+      <li>1×1 ribbing for cuffs and hem</li>
+      <li>Joining in the round</li>
+      <li>Basic blocking</li>
+    </ul>
+  </div>
+  <div class="pd-block">
+    <h3>Pattern <em>includes</em></h3>
+    <ul class="pd-list">
+      <li>Full written instructions in English</li>
+      <li>Sizes XS — 3XL (7 sizes)</li>
+      <li>Schematic with finished measurements</li>
+      <li>Stitch glossary and abbreviations</li>
+      <li>Notes for adjusting length</li>
+      <li>Yarn substitution guide</li>
+      <li>PDF download, printable format</li>
+    </ul>
+  </div>
+</div>
+<div class="construction fu">
+  <div class="con-header">
+    <h2 class="con-title">How it's<br><em>constructed</em></h2>
+    <p class="con-note">Top-down, seamless — no sewing required</p>
+  </div>
+  <div class="con-steps">
+    <div class="step"><span class="step-num">01</span><div class="step-title">Collar & yoke</div><p class="step-desc">Begin at the neckline with a short 1×1 rib collar. Work the raglan yoke flat first, then join to work in the round. Increases are placed at four raglan lines.</p></div>
+    <div class="step"><span class="step-num">02</span><div class="step-title">Separate sleeves</div><p class="step-desc">At the underarm, sleeve stitches are placed on hold. The body continues in the round. This keeps the construction clean and avoids complicated joins.</p></div>
+    <div class="step"><span class="step-num">03</span><div class="step-title">Body texture</div><p class="step-desc">The waffle stitch pattern begins after separation. It repeats over 4 rows and creates the characteristic cozy texture without requiring chart reading.</p></div>
+    <div class="step"><span class="step-num">04</span><div class="step-title">Sleeves & finish</div><p class="step-desc">Pick up sleeve stitches and work each sleeve top-down to the cuff. Finish with a ribbed hem. Block lightly to open the texture and set the shape.</p></div>
+  </div>
+</div>
+<div class="sizing fu">
+  <h2>Sizing <em>guide</em></h2>
+  <p class="sizing-note">All measurements are finished garment measurements. For a relaxed fit, choose your size based on bust circumference and add 8–12 cm ease.</p>
+  <table class="size-table">
+    <thead><tr><th>Size</th><th>Bust (cm)</th><th>Length (cm)</th><th>Sleeve (cm)</th><th>Yarn needed</th></tr></thead>
+    <tbody>
+      <tr><td>XS <span class="size-badge">32–34"</span></td><td>88</td><td>58</td><td>46</td><td>~350 g</td></tr>
+      <tr><td>S <span class="size-badge">36–38"</span></td><td>96</td><td>60</td><td>47</td><td>~400 g</td></tr>
+      <tr><td>M <span class="size-badge">40–42"</span></td><td>104</td><td>61</td><td>48</td><td>~450 g</td></tr>
+      <tr><td>L <span class="size-badge">44–46"</span></td><td>112</td><td>62</td><td>49</td><td>~480 g</td></tr>
+      <tr><td>XL <span class="size-badge">48–50"</span></td><td>120</td><td>63</td><td>50</td><td>~520 g</td></tr>
+      <tr><td>2XL <span class="size-badge">52–54"</span></td><td>132</td><td>64</td><td>51</td><td>~560 g</td></tr>
+      <tr><td>3XL <span class="size-badge">56–58"</span></td><td>144</td><td>65</td><td>52</td><td>~600 g</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="yarn-rec fu">
+  <div class="yr-label">Yarn</div>
+  <h2 class="yr-title">What we <em>recommend</em></h2>
+  <div class="yr-grid">
+    <div class="yc"><span class="yc-type">Best pick</span><div class="yc-name">Merino Bulky</div><p class="yc-desc">100% merino wool in bulky weight. Soft against the skin, holds the waffle texture beautifully, and comes in a wide range of natural tones.</p></div>
+    <div class="yc"><span class="yc-type">Budget option</span><div class="yc-name">Superwash Blend</div><p class="yc-desc">A merino/acrylic blend in bulky weight. Machine washable, widely available, and more affordable. Good for a first knit.</p></div>
+    <div class="yc"><span class="yc-type">Luxury pick</span><div class="yc-name">Cashmere Mix</div><p class="yc-desc">A cashmere blend gives an exceptionally soft finish and beautiful drape. Best for experienced knitters as it requires more careful handling.</p></div>
+  </div>
+</div>
+<div class="more fu">
+  <div class="more-hdr">
+    <h2 class="more-title">More from the <em>collection</em></h2>
+    <a class="more-link" href="index.html">View all patterns</a>
+  </div>
+  <div class="more-grid">
+    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag">Baby</span><canvas class="mc-canvas" id="mc1"></canvas></div><div class="mc-info"><div class="mc-name">Lullaby Cardigan</div><div class="mc-meta">0–24 months · Beginner</div></div></a>
+    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag">Adult</span><canvas class="mc-canvas" id="mc2"></canvas></div><div class="mc-info"><div class="mc-name">Thistledown Cardigan</div><div class="mc-meta">Adult · Easy</div></div></a>
+    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag">Baby</span><canvas class="mc-canvas" id="mc3"></canvas></div><div class="mc-info"><div class="mc-name">First Snow Set</div><div class="mc-meta">6–36 months · Intermediate</div></div></a>
+  </div>
+</div>
+<footer>
+  <div class="ft">
+    <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p></div>
+    <div class="ft-col"><h4>Explore</h4><ul><li><a href="index.html">All Patterns</a></li><li><a href="pattern.html">Sweaters</a></li><li><a href="pattern.html">Baby & Kids</a></li></ul></div>
+    <div class="ft-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="index.html">Journal</a></li><li><a href="index.html">Contact</a></li></ul></div>
+  </div>
+  <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — All rights reserved</span><span class="ft-copy">Made with patience ✦</span></div>
+</footer>
+<script>
+function drawKnit(canvas,opts){
+  if(!canvas)return;
+  const{bg,yarn,hi,sh,sw=20,sh2=15}=opts;
+  const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  const cols=Math.ceil(W/sw)+2,rows=Math.ceil(H/sh2)+2;
+  for(let r=-1;r<rows;r++){for(let c=-1;c<cols;c++){
+    const odd=r%2===0;const x=c*sw+(odd?0:sw*.5),y=r*sh2;
+    const cx2=x+sw*.5,cy2=y+sh2*.5,rw=sw*.44,rh=sh2*.38;
+    ctx.beginPath();ctx.ellipse(cx2-sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=sh;ctx.lineWidth=1.8;ctx.stroke();
+    ctx.beginPath();ctx.ellipse(cx2+sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=yarn;ctx.lineWidth=2.1;ctx.stroke();
+    ctx.beginPath();ctx.ellipse(cx2,cy2-rh*.3,rw*.55,rh*.35,0,Math.PI,0);ctx.strokeStyle=hi;ctx.lineWidth=1.1;ctx.globalAlpha=.52;ctx.stroke();ctx.globalAlpha=1;
+  }}
+}
+function init(id,opts,aspect=1.1){
+  const el=document.getElementById(id);if(!el)return;
+  const pr=window.devicePixelRatio||1;const r=el.parentElement.getBoundingClientRect();
+  el.width=Math.round(r.width*pr)||500;el.height=Math.round(el.width*aspect);
+  el.style.width='100%';el.style.display='block';drawKnit(el,opts);
+}
+window.addEventListener('load',()=>{
+  init('mainC',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:22,sh2:17},1.2);
+  init('mc1',{bg:'#ddd4c8',yarn:'#b8a898',hi:'#ccc0b0',sh:'#988878',sw:18,sh2:13},0.75);
+  init('mc2',{bg:'#d8e0d4',yarn:'#a8b8a0',hi:'#b8c8b0',sh:'#889880',sw:18,sh2:13},0.75);
+  init('mc3',{bg:'#dcd4dc',yarn:'#b8a8c0',hi:'#ccbcd0',sh:'#988898',sw:18,sh2:13},0.75);
+});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.06});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
