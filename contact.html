@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact — Still Hour Knits</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ivory:#f8f2e8;--linen:#eeddd0;--parchment:#e4cfc0;--rose:#b07880;--rose-lt:#ccb0b0;--rose-fnt:rgba(176,120,128,.18);--ink:#3a2428;--muted:rgba(58,36,40,.52);--faint:rgba(58,36,40,.1);--fainter:rgba(58,36,40,.06)}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--ivory);color:var(--ink);font-weight:300;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:linear-gradient(to bottom,rgba(248,242,232,.97) 0%,rgba(248,242,232,0) 100%)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;letter-spacing:.16em;color:var(--ink);text-decoration:none}
+.logo em{font-style:italic;color:var(--rose)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--rose)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang-switcher{position:relative}
+.lang-btn{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;display:flex;align-items:center;gap:5px;transition:all .3s}
+.lang-btn:hover{border-color:var(--rose);color:var(--rose)}
+.lang-btn::after{content:'▾';font-size:7px}
+.lang-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--ivory);border:1px solid var(--faint);min-width:72px;z-index:200;box-shadow:0 8px 24px rgba(58,36,40,.08)}
+.lang-dropdown.open{display:block}
+.lang-option{display:block;width:100%;background:none;border:none;font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:8px 12px;text-align:left;transition:all .3s}
+.lang-option:hover,.lang-option.active{color:var(--rose);background:var(--linen)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.hamburger span{width:22px;height:1px;background:var(--ink);display:block;transition:all .3s ease;transform-origin:center}
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none}
+.mobile-menu a:hover{color:var(--rose)}
+.mobile-lang{display:flex;gap:8px;margin-top:8px;padding-top:24px;border-top:1px solid var(--faint)}
+.mobile-lang button{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;transition:all .3s}
+.mobile-lang button.active,.mobile-lang button:hover{color:var(--rose);border-color:var(--rose)}
+.contact-hero{min-height:50vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.ch-left{display:flex;flex-direction:column;justify-content:flex-end;padding:130px 48px 72px 56px;position:relative;z-index:2}
+.eyebrow{font-size:9px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--rose);display:inline-block}
+.ch-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,5.2vw,76px);font-weight:300;line-height:1.04;color:var(--ink);margin-bottom:20px}
+.ch-left h1 em{font-style:italic;color:var(--rose);display:block}
+.ch-lead{font-size:13.5px;font-weight:300;line-height:1.88;color:var(--muted);max-width:380px;letter-spacing:.02em}
+.ch-right{position:relative;overflow:hidden;background:var(--linen)}
+.ch-right canvas{width:100%;height:100%;display:block}
+.ch-right-fade{position:absolute;inset:0;background:linear-gradient(to right,rgba(248,242,232,.2) 0%,transparent 35%);pointer-events:none}
+.divider{display:flex;align-items:center;gap:16px;padding:0 56px}
+.dl{flex:1;height:1px;background:var(--faint)}
+.ds{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--rose-lt);opacity:.7}
+.contact-main{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--faint)}
+.contact-form-wrap{padding:80px 56px;border-right:1px solid var(--faint)}
+.section-label{font-size:9px;font-weight:300;letter-spacing:.36em;text-transform:uppercase;color:var(--rose);margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';width:26px;height:1px;background:var(--rose)}
+.contact-form-wrap h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1.15;color:var(--ink);margin-bottom:10px}
+.contact-form-wrap h2 em{font-style:italic;color:var(--rose)}
+.form-intro{font-size:13px;font-weight:300;line-height:1.85;color:var(--muted);letter-spacing:.02em;margin-bottom:40px}
+.form-field{margin-bottom:28px}
+.field-label{font-size:9px;font-weight:300;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:block}
+.field-input{width:100%;background:none;border:none;border-bottom:1px solid var(--parchment);outline:none;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--ink);padding:10px 0;letter-spacing:.02em;transition:border-color .3s;display:block}
+.field-input:focus{border-bottom-color:var(--rose)}
+.field-input::placeholder{color:var(--parchment)}
+textarea.field-input{resize:none;height:120px;font-family:'Jost',sans-serif}
+.btn-submit{display:inline-flex;align-items:center;gap:14px;background:var(--ink);color:var(--ivory);font-family:'Jost',sans-serif;font-size:10px;font-weight:300;letter-spacing:.32em;text-transform:uppercase;padding:16px 36px;border:none;cursor:pointer;transition:background .3s;margin-top:8px;width:100%;justify-content:center}
+.btn-submit:hover{background:var(--rose)}
+.form-success{display:none;font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--rose);letter-spacing:.04em;padding:20px 0;text-align:center}
+.contact-info{padding:80px 56px;display:flex;flex-direction:column;background:var(--linen)}
+.info-block{padding:36px 0;border-bottom:1px solid var(--faint)}
+.info-block:first-child{padding-top:0}
+.info-block:last-child{border-bottom:none}
+.info-label{font-size:9px;font-weight:300;letter-spacing:.26em;text-transform:uppercase;color:var(--rose);margin-bottom:10px;display:block}
+.info-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px}
+.info-value{font-size:13px;font-weight:300;color:var(--muted);letter-spacing:.02em;line-height:1.7}
+.info-link{font-size:13px;font-weight:300;color:var(--ink);letter-spacing:.02em;text-decoration:none;border-bottom:1px solid var(--parchment);padding-bottom:2px;transition:all .3s;display:inline-block}
+.info-link:hover{color:var(--rose);border-bottom-color:var(--rose)}
+.channels{padding:80px 56px;border-bottom:1px solid var(--faint)}
+.channels h2{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--ink);margin-bottom:8px}
+.channels h2 em{font-style:italic;color:var(--rose)}
+.channels-intro{font-size:13px;font-weight:300;color:var(--muted);letter-spacing:.02em;margin-bottom:44px;line-height:1.85}
+.channels-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.channel-card{background:var(--linen);padding:32px 28px;border-left:2px solid var(--rose-fnt);text-decoration:none;display:block;transition:border-left-color .3s,transform .3s}
+.channel-card:hover{border-left-color:var(--rose);transform:translateX(4px)}
+.channel-icon{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--rose);margin-bottom:12px;display:block}
+.channel-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink);margin-bottom:6px}
+.channel-handle{font-size:12px;font-weight:300;color:var(--muted);letter-spacing:.04em}
+.channel-note{font-size:10px;font-weight:300;color:var(--rose-lt);letter-spacing:.12em;margin-top:8px;font-style:italic;font-family:'Cormorant Garamond',serif}
+.response-note{padding:72px 56px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;background:var(--ink)}
+.rn-label{font-size:9px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.rn-label::before{content:'';width:26px;height:1px;background:var(--rose)}
+.rn-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,42px);font-weight:300;line-height:1.2;color:var(--ivory)}
+.rn-quote em{font-style:italic;color:var(--rose)}
+.rn-right p{font-size:13px;font-weight:300;line-height:2;color:rgba(248,242,232,.55);margin-bottom:18px;letter-spacing:.02em}
+.rn-detail{display:flex;flex-direction:column;margin-top:32px}
+.rn-item{display:flex;align-items:flex-start;gap:16px;padding:16px 0;border-top:1px solid rgba(248,242,232,.08)}
+.rn-item-label{font-size:9px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:rgba(248,242,232,.4);min-width:130px;margin-top:2px}
+.rn-item-val{font-size:13px;font-weight:300;color:rgba(248,242,232,.6);letter-spacing:.02em}
+footer{background:var(--ink);padding:52px 56px 32px;border-top:1px solid rgba(248,242,232,.08)}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr;gap:56px;padding-bottom:36px;border-bottom:1px solid rgba(248,242,232,.08)}
+.ft-brand{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:.1em;margin-bottom:12px;color:var(--ivory)}
+.ft-brand em{font-style:italic;color:var(--rose)}
+.ft-tag{font-size:12px;font-weight:300;line-height:1.9;color:rgba(248,242,232,.35);max-width:260px;letter-spacing:.02em}
+.ft-col h4{font-size:8px;font-weight:300;letter-spacing:.32em;text-transform:uppercase;color:var(--rose);margin-bottom:16px}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.ft-col a{font-size:12px;font-weight:300;letter-spacing:.06em;color:rgba(248,242,232,.38);text-decoration:none;transition:color .3s}
+.ft-col a:hover{color:var(--ivory)}
+.ft-btm{display:flex;justify-content:space-between;align-items:center;padding-top:24px;flex-wrap:wrap;gap:8px}
+.ft-copy{font-size:10px;font-weight:300;letter-spacing:.08em;color:rgba(248,242,232,.22)}
+.ft-copy em{font-style:italic;font-family:'Cormorant Garamond',serif}
+.fu{opacity:0;transform:translateY(20px);transition:opacity .85s ease,transform .85s ease}
+.fu.vis{opacity:1;transform:none}
+@media(max-width:768px){
+  nav{padding:18px 24px}.nav-links{display:none}.hamburger{display:flex}
+  .contact-hero{grid-template-columns:1fr;min-height:50vh}
+  .ch-left{padding:100px 28px 52px}.ch-left h1{font-size:clamp(36px,10vw,56px)}.ch-lead{max-width:100%}.ch-right{display:none}
+  .divider{padding:0 28px}
+  .contact-main{grid-template-columns:1fr}
+  .contact-form-wrap{padding:52px 28px;border-right:none;border-bottom:1px solid var(--faint)}
+  .contact-form-wrap h2{font-size:28px}
+  .contact-info{padding:52px 28px}
+  .channels{padding:52px 28px}.channels h2{font-size:28px}.channels-grid{grid-template-columns:1fr}
+  .response-note{grid-template-columns:1fr;padding:56px 28px;gap:36px}
+  .rn-quote{font-size:clamp(24px,7vw,36px)}
+  footer{padding:40px 28px 28px}.ft{grid-template-columns:1fr;gap:32px}.ft-btm{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){
+  .ch-left{padding:88px 20px 44px}.divider{padding:0 20px}.contact-form-wrap{padding:44px 20px}
+  .contact-info{padding:44px 20px}.channels{padding:44px 20px}.response-note{padding:48px 20px}
+  footer{padding:36px 20px 24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">Still <em>Hour</em> Knits</a>
+  <ul class="nav-links">
+    <li><a href="index.html" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="about.html" data-i18n="nav.about">About</a></li>
+    <li><a href="contact.html" class="active" data-i18n="nav.contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-option active" onclick="setLang('en')">EN</button>
+        <button class="lang-option" onclick="setLang('es')">ES</button>
+        <button class="lang-option" onclick="setLang('fr')">FR</button>
+        <button class="lang-option" onclick="setLang('pt')">PT</button>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()" data-i18n="nav.patterns">Patterns</a>
+  <a href="about.html" onclick="toggleMenu()" data-i18n="nav.about">About</a>
+  <a href="contact.html" onclick="toggleMenu()" data-i18n="nav.contact">Contact</a>
+  <div class="mobile-lang">
+    <button onclick="setLang('en');toggleMenu()" id="mlEN" class="active">EN</button>
+    <button onclick="setLang('es');toggleMenu()" id="mlES">ES</button>
+    <button onclick="setLang('fr');toggleMenu()" id="mlFR">FR</button>
+    <button onclick="setLang('pt');toggleMenu()" id="mlPT">PT</button>
+  </div>
+</div>
+
+<section class="contact-hero">
+  <div class="ch-left">
+    <div class="eyebrow" data-i18n="c.eyebrow">Get in touch</div>
+    <h1 data-i18n-html="c.hero.title">Let's talk<br><em>knitting.</em></h1>
+    <p class="ch-lead" data-i18n="c.lead">Questions about a pattern, suggestions, collaborations, or just want to say hello — I'd love to hear from you. I read every message personally.</p>
+  </div>
+  <div class="ch-right"><canvas id="heroC"></canvas><div class="ch-right-fade"></div></div>
+</section>
+
+<div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
+
+<div class="contact-main">
+  <div class="contact-form-wrap fu">
+    <div class="section-label" data-i18n="c.form.label">Send a message</div>
+    <h2 data-i18n-html="c.form.title">Write to <em>Marija</em></h2>
+    <p class="form-intro" data-i18n="c.form.intro">Have a question about a pattern, want to share your finished knit, or just want to say hello? Fill in the form and I will get back to you within a few days.</p>
+    <form id="contactForm" onsubmit="handleSubmit(event)">
+      <div class="form-field">
+        <label class="field-label" data-i18n="c.f.name">Your name</label>
+        <input class="field-input" type="text" data-i18n-placeholder="c.f.name.ph" placeholder="Marija…" required/>
+      </div>
+      <div class="form-field">
+        <label class="field-label" data-i18n="c.f.email">Your email</label>
+        <input class="field-input" type="email" data-i18n-placeholder="c.f.email.ph" placeholder="your@email.com" required/>
+      </div>
+      <div class="form-field">
+        <label class="field-label" data-i18n="c.f.subject">Subject</label>
+        <input class="field-input" type="text" data-i18n-placeholder="c.f.subject.ph" placeholder="Pattern question, collaboration…"/>
+      </div>
+      <div class="form-field">
+        <label class="field-label" data-i18n="c.f.message">Message</label>
+        <textarea class="field-input" data-i18n-placeholder="c.f.message.ph" placeholder="Tell me what's on your mind…" required></textarea>
+      </div>
+      <button class="btn-submit" type="submit" data-i18n="c.f.btn">Send message</button>
+      <p class="form-success" id="formSuccess" data-i18n="c.f.success">Thank you for your message — I will be in touch soon. ✦</p>
+    </form>
+  </div>
+  <div class="contact-info fu">
+    <div class="info-block">
+      <span class="info-label" data-i18n="c.info.email.label">Email</span>
+      <div class="info-title" data-i18n="c.info.email.title">Write directly</div>
+      <a class="info-link" href="mailto:info@stillhourknits.com">info@stillhourknits.com</a>
+    </div>
+    <div class="info-block">
+      <span class="info-label" data-i18n="c.info.base.label">Based in</span>
+      <div class="info-title" data-i18n="c.info.base.title">Croatia</div>
+      <p class="info-value" data-i18n="c.info.base.val">Responding in English and Croatian.</p>
+    </div>
+    <div class="info-block">
+      <span class="info-label" data-i18n="c.info.resp.label">Response time</span>
+      <div class="info-title" data-i18n="c.info.resp.title">Within a few days</div>
+      <p class="info-value" data-i18n="c.info.resp.val">I read every message personally. Please allow 2–3 days for a reply — sometimes I am deep in a pattern row and cannot be disturbed.</p>
+    </div>
+    <div class="info-block">
+      <span class="info-label" data-i18n="c.info.pat.label">For patterns</span>
+      <div class="info-title" data-i18n="c.info.pat.title">Coming soon</div>
+      <p class="info-value" data-i18n="c.info.pat.val">Patterns are not yet available for purchase. Sign up on the homepage to be notified when they launch.</p>
+    </div>
+  </div>
+</div>
+
+<div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
+
+<section class="channels fu">
+  <div class="section-label" data-i18n="c.social.label">Find me online</div>
+  <h2 data-i18n-html="c.social.title">Follow the <em>journey</em></h2>
+  <p class="channels-intro" data-i18n="c.social.intro">Behind-the-scenes process, finished objects, pattern previews, and the occasional still moment — follow along as Still Hour Knits grows from an idea into a full collection.</p>
+  <div class="channels-grid">
+    <a class="channel-card" href="#" target="_blank">
+      <span class="channel-icon" data-i18n="c.ig.label">Instagram</span>
+      <div class="channel-name" data-i18n="c.ig.name">@stillhourknits</div>
+      <p class="channel-handle" data-i18n="c.ig.desc">Process photos, finished objects & pattern previews</p>
+      <p class="channel-note" data-i18n="c.ig.note">Coming soon — follow to be notified at launch</p>
+    </a>
+    <a class="channel-card" href="https://www.ravelry.com/designers/StillHourKnits" target="_blank">
+      <span class="channel-icon" data-i18n="c.rv.label">Ravelry</span>
+      <div class="channel-name" data-i18n="c.rv.name">StillHourKnits</div>
+      <p class="channel-handle" data-i18n="c.rv.desc">Pattern library, project queue & knitting community</p>
+    </a>
+    <a class="channel-card" href="mailto:info@stillhourknits.com">
+      <span class="channel-icon" data-i18n="c.em.label">Email</span>
+      <div class="channel-name" data-i18n="c.em.name">info@stillhourknits.com</div>
+      <p class="channel-handle" data-i18n="c.em.desc">For questions, collaborations & everything else</p>
+    </a>
+    <a class="channel-card" href="index.html">
+      <span class="channel-icon" data-i18n="c.nl.label">Newsletter</span>
+      <div class="channel-name" data-i18n="c.nl.name">Join the waitlist</div>
+      <p class="channel-handle" data-i18n="c.nl.desc">Be the first to know when patterns launch</p>
+    </a>
+  </div>
+</section>
+
+<section class="response-note">
+  <div class="fu">
+    <div class="rn-label" data-i18n="c.note.label">A note from Marija</div>
+    <div class="rn-quote" data-i18n-html="c.note.quote">I make things<br>by hand. I reply<br><em>the same way.</em></div>
+  </div>
+  <div class="fu">
+    <p data-i18n="c.note.p1">Every message I receive is read personally. I do not use templates or automated replies. If you reach out, you will hear back from me — the actual person behind Still Hour Knits.</p>
+    <p data-i18n="c.note.p2">That might mean it takes a couple of days. I hope that is okay.</p>
+    <div class="rn-detail">
+      <div class="rn-item"><span class="rn-item-label" data-i18n="c.info.email.label">Email</span><span class="rn-item-val">info@stillhourknits.com</span></div>
+      <div class="rn-item"><span class="rn-item-label" data-i18n="c.info.resp.label">Response time</span><span class="rn-item-val" data-i18n="c.note.resp">2–3 business days</span></div>
+      <div class="rn-item"><span class="rn-item-label" data-i18n="c.note.lang.label">Language</span><span class="rn-item-val" data-i18n="c.note.lang">English & Croatian</span></div>
+      <div class="rn-item"><span class="rn-item-label">Ravelry</span><span class="rn-item-val">StillHourKnits</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft">
+    <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag" data-i18n="footer.tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p></div>
+    <div class="ft-col"><h4 data-i18n="footer.explore">Explore</h4><ul><li><a href="index.html" data-i18n="footer.all">All Patterns</a></li><li><a href="pattern.html" data-i18n="footer.sweaters">Sweaters</a></li><li><a href="pattern.html" data-i18n="footer.baby">Baby & Kids</a></li></ul></div>
+    <div class="ft-col"><h4 data-i18n="footer.studio">Studio</h4><ul><li><a href="about.html" data-i18n="nav.about">About</a></li><li><a href="contact.html" data-i18n="nav.contact">Contact</a></li><li><a href="https://www.ravelry.com/designers/StillHourKnits" target="_blank">Ravelry</a></li><li><a href="mailto:info@stillhourknits.com">info@stillhourknits.com</a></li></ul></div>
+  </div>
+  <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — <span data-i18n="footer.rights">All rights reserved</span></span><span class="ft-copy" data-i18n="footer.made">Made with patience ✦</span></div>
+</footer>
+
+<script>
+const i18n={
+  en:{"nav.patterns":"Patterns","nav.about":"About","nav.contact":"Contact","c.eyebrow":"Get in touch","c.hero.title":"Let's talk<br><em>knitting.</em>","c.lead":"Questions about a pattern, suggestions, collaborations, or just want to say hello — I'd love to hear from you. I read every message personally.","c.form.label":"Send a message","c.form.title":"Write to <em>Marija</em>","c.form.intro":"Have a question about a pattern, want to share your finished knit, or just want to say hello? Fill in the form and I will get back to you within a few days.","c.f.name":"Your name","c.f.email":"Your email","c.f.subject":"Subject","c.f.message":"Message","c.f.name.ph":"Marija…","c.f.email.ph":"your@email.com","c.f.subject.ph":"Pattern question, collaboration…","c.f.message.ph":"Tell me what's on your mind…","c.f.btn":"Send message","c.f.success":"Thank you for your message — I will be in touch soon. ✦","c.info.email.label":"Email","c.info.email.title":"Write directly","c.info.base.label":"Based in","c.info.base.title":"Croatia","c.info.base.val":"Responding in English and Croatian.","c.info.resp.label":"Response time","c.info.resp.title":"Within a few days","c.info.resp.val":"I read every message personally. Please allow 2–3 days for a reply — sometimes I am deep in a pattern row and cannot be disturbed.","c.info.pat.label":"For patterns","c.info.pat.title":"Coming soon","c.info.pat.val":"Patterns are not yet available for purchase. Sign up on the homepage to be notified when they launch.","c.social.label":"Find me online","c.social.title":"Follow the <em>journey</em>","c.social.intro":"Behind-the-scenes process, finished objects, pattern previews, and the occasional still moment — follow along as Still Hour Knits grows from an idea into a full collection.","c.ig.label":"Instagram","c.ig.name":"@stillhourknits","c.ig.desc":"Process photos, finished objects & pattern previews","c.ig.note":"Coming soon — follow to be notified at launch","c.rv.label":"Ravelry","c.rv.name":"StillHourKnits","c.rv.desc":"Pattern library, project queue & knitting community","c.em.label":"Email","c.em.name":"info@stillhourknits.com","c.em.desc":"For questions, collaborations & everything else","c.nl.label":"Newsletter","c.nl.name":"Join the waitlist","c.nl.desc":"Be the first to know when patterns launch","c.note.label":"A note from Marija","c.note.quote":"I make things<br>by hand. I reply<br><em>the same way.</em>","c.note.p1":"Every message I receive is read personally. I do not use templates or automated replies. If you reach out, you will hear back from me — the actual person behind Still Hour Knits.","c.note.p2":"That might mean it takes a couple of days. I hope that is okay.","c.note.resp":"2–3 business days","c.note.lang.label":"Language","c.note.lang":"English & Croatian","footer.tag":"Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.","footer.explore":"Explore","footer.all":"All Patterns","footer.sweaters":"Sweaters","footer.baby":"Baby & Kids","footer.studio":"Studio","footer.rights":"All rights reserved","footer.made":"Made with patience ✦"},
+  es:{"nav.patterns":"Patrones","nav.about":"Acerca de","nav.contact":"Contacto","c.eyebrow":"Ponte en contacto","c.hero.title":"Hablemos de<br><em>tejido.</em>","c.lead":"Preguntas sobre un patrón, sugerencias, colaboraciones o simplemente quieres saludar — me encantaría saber de ti. Leo cada mensaje personalmente.","c.form.label":"Envía un mensaje","c.form.title":"Escribe a <em>Marija</em>","c.form.intro":"¿Tienes una pregunta sobre un patrón, quieres compartir tu tejido terminado o simplemente saludar? Rellena el formulario y te responderé en unos días.","c.f.name":"Tu nombre","c.f.email":"Tu email","c.f.subject":"Asunto","c.f.message":"Mensaje","c.f.name.ph":"Tu nombre…","c.f.email.ph":"tu@email.com","c.f.subject.ph":"Pregunta sobre patrón, colaboración…","c.f.message.ph":"Cuéntame qué tienes en mente…","c.f.btn":"Enviar mensaje","c.f.success":"Gracias por tu mensaje — me pondré en contacto pronto. ✦","c.info.email.label":"Email","c.info.email.title":"Escribe directamente","c.info.base.label":"Basada en","c.info.base.title":"Croacia","c.info.base.val":"Respondo en inglés y croata.","c.info.resp.label":"Tiempo de respuesta","c.info.resp.title":"En unos días","c.info.resp.val":"Leo cada mensaje personalmente. Por favor, espera 2–3 días para una respuesta.","c.info.pat.label":"Sobre patrones","c.info.pat.title":"Próximamente","c.info.pat.val":"Los patrones aún no están disponibles para compra. Suscríbete en la página principal para ser notificada cuando se lancen.","c.social.label":"Encuéntrame online","c.social.title":"Sigue el <em>viaje</em>","c.social.intro":"Fotos del proceso, prendas terminadas y previsualizaciones de patrones — sígueme mientras Still Hour Knits crece de una idea a una colección completa.","c.ig.label":"Instagram","c.ig.name":"@stillhourknits","c.ig.desc":"Fotos del proceso, prendas terminadas y avances de patrones","c.ig.note":"Próximamente — sígueme para recibir notificaciones al lanzar","c.rv.label":"Ravelry","c.rv.name":"StillHourKnits","c.rv.desc":"Biblioteca de patrones, cola de proyectos y comunidad de tejido","c.em.label":"Email","c.em.name":"info@stillhourknits.com","c.em.desc":"Para preguntas, colaboraciones y cualquier otra cosa","c.nl.label":"Newsletter","c.nl.name":"Únete a la lista","c.nl.desc":"Sé la primera en saber cuando se lancen los patrones","c.note.label":"Una nota de Marija","c.note.quote":"Hago las cosas<br>a mano. Respondo<br><em>igual.</em>","c.note.p1":"Leo cada mensaje que recibo personalmente. No uso plantillas ni respuestas automáticas. Si te pones en contacto, recibirás respuesta mía — la persona real detrás de Still Hour Knits.","c.note.p2":"Puede que eso signifique que tarda un par de días. Espero que esté bien.","c.note.resp":"2–3 días hábiles","c.note.lang.label":"Idioma","c.note.lang":"Inglés y croata","footer.tag":"Patrones elaborados con paciencia para jerseys acogedores y tejidos para bebés.","footer.explore":"Explorar","footer.all":"Todos los patrones","footer.sweaters":"Jerseys","footer.baby":"Bebé y niños","footer.studio":"Estudio","footer.rights":"Todos los derechos reservados","footer.made":"Hecho con paciencia ✦"},
+  fr:{"nav.patterns":"Patrons","nav.about":"À propos","nav.contact":"Contact","c.eyebrow":"Prenez contact","c.hero.title":"Parlons<br><em>tricot.</em>","c.lead":"Des questions sur un patron, des suggestions, des collaborations ou juste envie de dire bonjour — je serais ravie d'avoir de vos nouvelles. Je lis chaque message personnellement.","c.form.label":"Envoyer un message","c.form.title":"Écrire à <em>Marija</em>","c.form.intro":"Vous avez une question sur un patron, vous souhaitez partager votre tricot terminé ou juste dire bonjour ? Remplissez le formulaire et je vous répondrai dans quelques jours.","c.f.name":"Votre nom","c.f.email":"Votre email","c.f.subject":"Sujet","c.f.message":"Message","c.f.name.ph":"Votre nom…","c.f.email.ph":"votre@email.com","c.f.subject.ph":"Question sur un patron, collaboration…","c.f.message.ph":"Dites-moi ce qui vous préoccupe…","c.f.btn":"Envoyer le message","c.f.success":"Merci pour votre message — je vous contacterai bientôt. ✦","c.info.email.label":"Email","c.info.email.title":"Écrire directement","c.info.base.label":"Basée en","c.info.base.title":"Croatie","c.info.base.val":"Je réponds en anglais et en croate.","c.info.resp.label":"Délai de réponse","c.info.resp.title":"En quelques jours","c.info.resp.val":"Je lis chaque message personnellement. Merci de prévoir 2–3 jours pour une réponse.","c.info.pat.label":"Pour les patrons","c.info.pat.title":"Bientôt disponible","c.info.pat.val":"Les patrons ne sont pas encore disponibles à l'achat. Inscrivez-vous sur la page d'accueil pour être informée du lancement.","c.social.label":"Retrouvez-moi en ligne","c.social.title":"Suivez <em>l'aventure</em>","c.social.intro":"Photos des coulisses, objets terminés et aperçus des patrons — suivez l'évolution de Still Hour Knits d'une idée à une collection complète.","c.ig.label":"Instagram","c.ig.name":"@stillhourknits","c.ig.desc":"Photos du processus, objets terminés et aperçus des patrons","c.ig.note":"Bientôt disponible — suivez pour être notifiée au lancement","c.rv.label":"Ravelry","c.rv.name":"StillHourKnits","c.rv.desc":"Bibliothèque de patrons, file de projets et communauté de tricot","c.em.label":"Email","c.em.name":"info@stillhourknits.com","c.em.desc":"Pour les questions, collaborations et tout le reste","c.nl.label":"Newsletter","c.nl.name":"Rejoindre la liste","c.nl.desc":"Soyez la première à savoir quand les patrons seront lancés","c.note.label":"Un mot de Marija","c.note.quote":"Je fais les choses<br>à la main. Je réponds<br><em>de la même façon.</em>","c.note.p1":"Je lis chaque message personnellement. Je n'utilise pas de modèles ni de réponses automatiques. Si vous prenez contact, vous recevrez une réponse de ma part — la vraie personne derrière Still Hour Knits.","c.note.p2":"Cela peut prendre quelques jours. J'espère que c'est acceptable.","c.note.resp":"2–3 jours ouvrables","c.note.lang.label":"Langue","c.note.lang":"Anglais et croate","footer.tag":"Patrons élaborés avec patience pour des pulls et des tricots pour bébés.","footer.explore":"Explorer","footer.all":"Tous les patrons","footer.sweaters":"Pulls","footer.baby":"Bébé et enfants","footer.studio":"Studio","footer.rights":"Tous droits réservés","footer.made":"Fait avec patience ✦"},
+  pt:{"nav.patterns":"Padrões","nav.about":"Sobre","nav.contact":"Contacto","c.eyebrow":"Entre em contacto","c.hero.title":"Vamos falar<br><em>de tricot.</em>","c.lead":"Perguntas sobre um padrão, sugestões, colaborações ou só queres dizer olá — adoraria ter notícias tuas. Leio cada mensagem pessoalmente.","c.form.label":"Envia uma mensagem","c.form.title":"Escreve à <em>Marija</em>","c.form.intro":"Tens uma pergunta sobre um padrão, queres partilhar o teu tricot acabado ou só dizer olá? Preenche o formulário e responderei em poucos dias.","c.f.name":"O teu nome","c.f.email":"O teu email","c.f.subject":"Assunto","c.f.message":"Mensagem","c.f.name.ph":"O teu nome…","c.f.email.ph":"o.teu@email.com","c.f.subject.ph":"Pergunta sobre padrão, colaboração…","c.f.message.ph":"Diz-me o que tens em mente…","c.f.btn":"Enviar mensagem","c.f.success":"Obrigada pela tua mensagem — entrarei em contacto em breve. ✦","c.info.email.label":"Email","c.info.email.title":"Escreve diretamente","c.info.base.label":"Baseada em","c.info.base.title":"Croácia","c.info.base.val":"Respondo em inglês e croata.","c.info.resp.label":"Tempo de resposta","c.info.resp.title":"Em poucos dias","c.info.resp.val":"Leio cada mensagem pessoalmente. Por favor, permite 2–3 dias para uma resposta.","c.info.pat.label":"Sobre padrões","c.info.pat.title":"Em breve","c.info.pat.val":"Os padrões ainda não estão disponíveis para compra. Subscreve na página inicial para seres notificada quando forem lançados.","c.social.label":"Encontra-me online","c.social.title":"Segue a <em>jornada</em>","c.social.intro":"Fotos dos bastidores, peças acabadas e pré-visualizações de padrões — segue enquanto a Still Hour Knits cresce de uma ideia para uma coleção completa.","c.ig.label":"Instagram","c.ig.name":"@stillhourknits","c.ig.desc":"Fotos do processo, peças acabadas e pré-visualizações de padrões","c.ig.note":"Em breve — segue para seres notificada no lançamento","c.rv.label":"Ravelry","c.rv.name":"StillHourKnits","c.rv.desc":"Biblioteca de padrões, fila de projetos e comunidade de tricot","c.em.label":"Email","c.em.name":"info@stillhourknits.com","c.em.desc":"Para perguntas, colaborações e tudo o resto","c.nl.label":"Newsletter","c.nl.name":"Junta-te à lista","c.nl.desc":"Sê a primeira a saber quando os padrões forem lançados","c.note.label":"Uma nota da Marija","c.note.quote":"Faço as coisas<br>à mão. Respondo<br><em>da mesma forma.</em>","c.note.p1":"Leio cada mensagem que recebo pessoalmente. Não uso modelos nem respostas automáticas. Se entrares em contacto, receberás resposta minha — a pessoa real por trás da Still Hour Knits.","c.note.p2":"Isso pode significar que demora alguns dias. Espero que esteja bem.","c.note.resp":"2–3 dias úteis","c.note.lang.label":"Idioma","c.note.lang":"Inglês e croata","footer.tag":"Padrões elaborados com paciência para camisolas aconchegantes e tricots para bebés.","footer.explore":"Explorar","footer.all":"Todos os padrões","footer.sweaters":"Camisolas","footer.baby":"Bebé e crianças","footer.studio":"Estúdio","footer.rights":"Todos os direitos reservados","footer.made":"Feito com paciência ✦"}
+};
+
+let currentLang=localStorage.getItem('shk-lang')||'en';
+function applyLang(lang){
+  currentLang=lang;localStorage.setItem('shk-lang',lang);
+  const t=i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k])el.textContent=t[k];});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.getAttribute('data-i18n-html');if(t[k])el.innerHTML=t[k];});
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const k=el.getAttribute('data-i18n-placeholder');if(t[k])el.placeholder=t[k];});
+  document.getElementById('langBtn').textContent=lang.toUpperCase()+' ▾';
+  document.querySelectorAll('.lang-option').forEach(btn=>{btn.classList.toggle('active',btn.textContent.trim().toLowerCase()===lang);});
+  ['EN','ES','FR','PT'].forEach(code=>{const btn=document.getElementById('ml'+code);if(btn)btn.classList.toggle('active',code.toLowerCase()===lang);});
+  document.documentElement.lang=lang;
+}
+function setLang(lang){applyLang(lang);closeLang();}
+function toggleLang(){document.getElementById('langDropdown').classList.toggle('open');}
+function closeLang(){document.getElementById('langDropdown').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.lang-switcher'))closeLang();});
+function toggleMenu(){
+  const m=document.getElementById('mobileMenu');const btn=document.getElementById('hamburgerBtn');
+  m.classList.toggle('open');const isOpen=m.classList.contains('open');
+  document.body.style.overflow=isOpen?'hidden':'';
+  if(btn){if(isOpen){btn.innerHTML='<span style="transform:rotate(45deg) translate(4px,4px)"></span><span style="opacity:0;width:22px"></span><span style="transform:rotate(-45deg) translate(4px,-4px)"></span>';}else{btn.innerHTML='<span></span><span></span><span></span>';}}
+}
+function drawKnit(canvas,opts){if(!canvas)return;const{bg,yarn,hi,sh,sw=20,sh2=15}=opts;const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);const cols=Math.ceil(W/sw)+2,rows=Math.ceil(H/sh2)+2;for(let r=-1;r<rows;r++){for(let c=-1;c<cols;c++){const odd=r%2===0;const x=c*sw+(odd?0:sw*.5),y=r*sh2;const cx2=x+sw*.5,cy2=y+sh2*.5,rw=sw*.44,rh=sh2*.38;ctx.beginPath();ctx.ellipse(cx2-sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=sh;ctx.lineWidth=1.8;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2+sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=yarn;ctx.lineWidth=2.1;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2,cy2-rh*.3,rw*.55,rh*.35,0,Math.PI,0);ctx.strokeStyle=hi;ctx.lineWidth=1.1;ctx.globalAlpha=.52;ctx.stroke();ctx.globalAlpha=1;}}}
+function init(id,opts){const el=document.getElementById(id);if(!el)return;const pr=window.devicePixelRatio||1;const r=el.parentElement.getBoundingClientRect();el.width=Math.round(r.width*pr)||500;el.height=Math.round(r.height*pr)||400;el.style.width='100%';el.style.height='100%';drawKnit(el,opts);}
+function handleSubmit(e){e.preventDefault();document.querySelector('.btn-submit').style.display='none';document.getElementById('formSuccess').style.display='block';}
+window.addEventListener('load',()=>{init('heroC',{bg:'#e8dac8',yarn:'#c09898',hi:'#d4b0a8',sh:'#a08070',sw:24,sh2:18});applyLang(currentLang);});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.08});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
