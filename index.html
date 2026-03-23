@@ -16,13 +16,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .nav-links{display:flex;gap:28px;list-style:none}
 .nav-links a{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--rose)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang-switcher{position:relative}
+.lang-btn{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;display:flex;align-items:center;gap:5px;transition:all .3s}
+.lang-btn:hover{border-color:var(--rose);color:var(--rose)}
+.lang-btn::after{content:'▾';font-size:7px}
+.lang-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--ivory);border:1px solid var(--faint);min-width:72px;z-index:200;box-shadow:0 8px 24px rgba(58,36,40,.08)}
+.lang-dropdown.open{display:block}
+.lang-option{display:block;width:100%;background:none;border:none;font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:8px 12px;text-align:left;transition:all .3s}
+.lang-option:hover,.lang-option.active{color:var(--rose);background:var(--linen)}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
 .hamburger span{width:22px;height:1px;background:var(--ink);display:block;transition:all .3s ease;transform-origin:center}
-.mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:36px}
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:32px}
 .mobile-menu.open{display:flex}
 .mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none}
 .mobile-menu a:hover{color:var(--rose)}
-.mobile-close{position:absolute;top:24px;right:28px;font-size:26px;background:none;border:none;cursor:pointer;color:var(--ink)}
+.mobile-lang{display:flex;gap:8px;margin-top:8px;padding-top:24px;border-top:1px solid var(--faint)}
+.mobile-lang button{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;transition:all .3s}
+.mobile-lang button.active,.mobile-lang button:hover{color:var(--rose);border-color:var(--rose)}
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
 .hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:120px 48px 72px 56px;position:relative;z-index:2}
 .eyebrow{font-size:9px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:20px;display:flex;align-items:center;gap:12px}
@@ -109,7 +120,6 @@ footer{background:var(--ink);padding:52px 56px 32px}
 .fu.vis{opacity:1;transform:none}
 .fu:nth-child(2){transition-delay:.1s}
 .fu:nth-child(3){transition-delay:.2s}
-
 @media(max-width:768px){
   nav{padding:18px 24px}
   .nav-links{display:none}
@@ -154,79 +164,328 @@ footer{background:var(--ink);padding:52px 56px 32px}
 </style>
 </head>
 <body>
+
 <nav>
   <a class="logo" href="index.html">Still <em>Hour</em> Knits</a>
   <ul class="nav-links">
-    <li><a href="index.html">Patterns</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="about.html" data-i18n="nav.about">About</a></li>
+    <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
   </ul>
-  <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-option active" onclick="setLang('en')">EN</button>
+        <button class="lang-option" onclick="setLang('es')">ES</button>
+        <button class="lang-option" onclick="setLang('fr')">FR</button>
+        <button class="lang-option" onclick="setLang('pt')">PT</button>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Patterns</a>
-  <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="index.html" onclick="toggleMenu()" data-i18n="nav.patterns">Patterns</a>
+  <a href="about.html" onclick="toggleMenu()" data-i18n="nav.about">About</a>
+  <a href="contact.html" onclick="toggleMenu()" data-i18n="nav.contact">Contact</a>
+  <div class="mobile-lang">
+    <button onclick="setLang('en');toggleMenu()" id="mlEN" class="active">EN</button>
+    <button onclick="setLang('es');toggleMenu()" id="mlES">ES</button>
+    <button onclick="setLang('fr');toggleMenu()" id="mlFR">FR</button>
+    <button onclick="setLang('pt');toggleMenu()" id="mlPT">PT</button>
+  </div>
 </div>
+
 <section class="hero">
   <div class="hero-left">
-    <div class="eyebrow">New Collection — 2025</div>
-    <h1>Knitted with<br><em>patience & love</em></h1>
-    <p class="hero-desc">Still Hour Knits is a small studio of thoughtfully designed patterns — cozy, textured pieces for adults and little ones, made for the quiet, unhurried hours only knitting can give.</p>
-    <a class="btn-line" href="pattern.html">Explore the patterns</a>
-    <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+    <div class="eyebrow" data-i18n="hero.eyebrow">New Collection — 2025</div>
+    <h1 data-i18n-html="hero.title">Knitted with<br><em>patience & love</em></h1>
+    <p class="hero-desc" data-i18n="hero.desc">Still Hour Knits is a small studio of thoughtfully designed patterns — cozy, textured pieces for adults and little ones, made for the quiet, unhurried hours only knitting can give.</p>
+    <a class="btn-line" href="pattern.html" data-i18n="hero.cta">Explore the patterns</a>
+    <div class="hero-scroll"><div class="scroll-line"></div><span data-i18n="hero.scroll">Scroll</span></div>
   </div>
   <div class="hero-right"><canvas id="heroC"></canvas><div class="hero-right-fade"></div></div>
 </section>
+
 <div class="intro fu">
   <div class="intro-num">01</div>
   <div class="intro-body">
-    <h2>Knitting as <em>meditation</em></h2>
-    <p>There is a particular kind of calm that comes only from following a pattern — the rhythmic click of needles, the slow satisfaction of each completed row. Still Hour Knits was born from that feeling. Every pattern is crafted to bring you into a quiet, unhurried state where patience becomes its own reward.</p>
+    <h2 data-i18n-html="intro.title">Knitting as <em>meditation</em></h2>
+    <p data-i18n="intro.body">There is a particular kind of calm that comes only from following a pattern — the rhythmic click of needles, the slow satisfaction of each completed row. Still Hour Knits was born from that feeling. Every pattern is crafted to bring you into a quiet, unhurried state where patience becomes its own reward.</p>
   </div>
-  <div class="intro-aside"><span class="aside-num">∞</span><span class="aside-lbl">Still hours<br>waiting for you</span></div>
+  <div class="intro-aside">
+    <span class="aside-num">∞</span>
+    <span class="aside-lbl" data-i18n="intro.aside">Still hours<br>waiting for you</span>
+  </div>
 </div>
+
 <div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
+
 <section class="patterns">
   <div class="sec-hdr fu">
-    <h2 class="sec-title">The<br><em>collection</em></h2>
-    <p class="sec-note">Cozy textures and thoughtful construction — patterns for sweaters and little ones</p>
+    <h2 class="sec-title" data-i18n-html="collection.title">The<br><em>collection</em></h2>
+    <p class="sec-note" data-i18n="collection.note">Cozy textures and thoughtful construction — patterns for sweaters and little ones</p>
   </div>
   <div class="pgrid">
-    <div class="pc feat fu"><div class="pc-img"><span class="pc-tag">Featured</span><canvas class="pc-canvas" id="c1"></canvas></div><div class="pc-info"><div class="pc-name">The Morrowfield Sweater</div><div class="pc-meta"><span>Adult</span><span class="pdot"></span><span>Intermediate</span><span class="pdot"></span><span>Bulky weight</span></div><span class="pc-soon">Coming soon</span></div></div>
-    <div class="pc fu"><div class="pc-img"><span class="pc-tag">Baby</span><canvas class="pc-canvas" id="c2"></canvas></div><div class="pc-info"><div class="pc-name">Lullaby Cardigan</div><div class="pc-meta"><span>0–24 months</span><span class="pdot"></span><span>Beginner</span></div><span class="pc-soon">Coming soon</span></div></div>
-    <div class="pc fu"><div class="pc-img"><span class="pc-tag">Adult</span><canvas class="pc-canvas" id="c3"></canvas></div><div class="pc-info"><div class="pc-name">Thistledown Cardigan</div><div class="pc-meta"><span>Adult</span><span class="pdot"></span><span>Easy</span></div><span class="pc-soon">Coming soon</span></div></div>
-    <div class="pc fu"><div class="pc-img"><span class="pc-tag">Baby</span><canvas class="pc-canvas" id="c4"></canvas></div><div class="pc-info"><div class="pc-name">First Snow Set</div><div class="pc-meta"><span>6–36 months</span><span class="pdot"></span><span>Intermediate</span></div><span class="pc-soon">Coming soon</span></div></div>
-  </div>
-</section>
-<div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
-<section class="phil">
-  <div class="fu"><div class="phil-lbl">The philosophy</div><div class="phil-quote">Every stitch<br>a small act of<br><em>patience & care</em></div></div>
-  <div class="phil-r fu">
-    <p>Knitting demands something rare from us — it asks us to slow down, to pay attention, and to trust the process. In a world of instant gratification, there is something quietly radical about making something by hand, row by careful row.</p>
-    <p>I started knitting as a way to find stillness in busy days. That feeling — absorbed, calm, completely present — is what I want every Still Hour Knits pattern to give you.</p>
-    <div class="phil-vals">
-      <div class="pv"><span class="pv-n">i.</span><div class="pv-body"><strong>Patience</strong><span>Patterns designed to reward careful, unhurried work</span></div></div>
-      <div class="pv"><span class="pv-n">ii.</span><div class="pv-body"><strong>Texture</strong><span>Rich, tactile designs that feel as good as they look</span></div></div>
-      <div class="pv"><span class="pv-n">iii.</span><div class="pv-body"><strong>Stillness</strong><span>A reminder that some of the best things take time</span></div></div>
+    <div class="pc feat fu">
+      <div class="pc-img"><span class="pc-tag" data-i18n="tag.featured">Featured</span><canvas class="pc-canvas" id="c1"></canvas></div>
+      <div class="pc-info">
+        <div class="pc-name">The Morrowfield Sweater</div>
+        <div class="pc-meta"><span data-i18n="meta.adult">Adult</span><span class="pdot"></span><span data-i18n="meta.intermediate">Intermediate</span><span class="pdot"></span><span data-i18n="meta.bulky">Bulky weight</span></div>
+        <span class="pc-soon" data-i18n="tag.soon">Coming soon</span>
+      </div>
+    </div>
+    <div class="pc fu">
+      <div class="pc-img"><span class="pc-tag" data-i18n="tag.baby">Baby</span><canvas class="pc-canvas" id="c2"></canvas></div>
+      <div class="pc-info">
+        <div class="pc-name">Lullaby Cardigan</div>
+        <div class="pc-meta"><span>0–24 months</span><span class="pdot"></span><span data-i18n="meta.beginner">Beginner</span></div>
+        <span class="pc-soon" data-i18n="tag.soon">Coming soon</span>
+      </div>
+    </div>
+    <div class="pc fu">
+      <div class="pc-img"><span class="pc-tag" data-i18n="meta.adult">Adult</span><canvas class="pc-canvas" id="c3"></canvas></div>
+      <div class="pc-info">
+        <div class="pc-name">Thistledown Cardigan</div>
+        <div class="pc-meta"><span data-i18n="meta.adult">Adult</span><span class="pdot"></span><span data-i18n="meta.easy">Easy</span></div>
+        <span class="pc-soon" data-i18n="tag.soon">Coming soon</span>
+      </div>
+    </div>
+    <div class="pc fu">
+      <div class="pc-img"><span class="pc-tag" data-i18n="tag.baby">Baby</span><canvas class="pc-canvas" id="c4"></canvas></div>
+      <div class="pc-info">
+        <div class="pc-name">First Snow Set</div>
+        <div class="pc-meta"><span>6–36 months</span><span class="pdot"></span><span data-i18n="meta.intermediate">Intermediate</span></div>
+        <span class="pc-soon" data-i18n="tag.soon">Coming soon</span>
+      </div>
     </div>
   </div>
 </section>
-<section class="nl">
-  <div class="fu"><h2>Be the first<br>to <em>know</em></h2><p class="nl-desc">New patterns, behind-the-scenes process notes, and quiet thoughts from the studio — straight to your inbox. No noise, no spam. Only the good stuff, when it is ready.</p></div>
-  <div class="fu"><div class="nl-form"><input class="nl-input" type="email" placeholder="Your email address…"/><button class="nl-btn">Subscribe</button></div><p class="nl-note">No noise. Only stillness.</p></div>
+
+<div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
+
+<section class="phil">
+  <div class="fu">
+    <div class="phil-lbl" data-i18n="phil.label">The philosophy</div>
+    <div class="phil-quote" data-i18n-html="phil.quote">Every stitch<br>a small act of<br><em>patience & care</em></div>
+  </div>
+  <div class="phil-r fu">
+    <p data-i18n="phil.p1">Knitting demands something rare from us — it asks us to slow down, to pay attention, and to trust the process. In a world of instant gratification, there is something quietly radical about making something by hand, row by careful row.</p>
+    <p data-i18n="phil.p2">I started knitting as a way to find stillness in busy days. That feeling — absorbed, calm, completely present — is what I want every Still Hour Knits pattern to give you.</p>
+    <div class="phil-vals">
+      <div class="pv"><span class="pv-n">i.</span><div class="pv-body"><strong data-i18n="phil.v1title">Patience</strong><span data-i18n="phil.v1desc">Patterns designed to reward careful, unhurried work</span></div></div>
+      <div class="pv"><span class="pv-n">ii.</span><div class="pv-body"><strong data-i18n="phil.v2title">Texture</strong><span data-i18n="phil.v2desc">Rich, tactile designs that feel as good as they look</span></div></div>
+      <div class="pv"><span class="pv-n">iii.</span><div class="pv-body"><strong data-i18n="phil.v3title">Stillness</strong><span data-i18n="phil.v3desc">A reminder that some of the best things take time</span></div></div>
+    </div>
+  </div>
 </section>
+
+<section class="nl">
+  <div class="fu">
+    <h2 data-i18n-html="nl.title">Be the first<br>to <em>know</em></h2>
+    <p class="nl-desc" data-i18n="nl.desc">New patterns, behind-the-scenes process notes, and quiet thoughts from the studio — straight to your inbox. No noise, no spam. Only the good stuff, when it is ready.</p>
+  </div>
+  <div class="fu">
+    <div class="nl-form">
+      <input class="nl-input" type="email" data-i18n-placeholder="nl.placeholder" placeholder="Your email address…"/>
+      <button class="nl-btn" data-i18n="nl.btn">Subscribe</button>
+    </div>
+    <p class="nl-note" data-i18n="nl.note">No noise. Only stillness.</p>
+  </div>
+</section>
+
 <footer>
   <div class="ft">
-    <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p></div>
-    <div class="ft-col"><h4>Explore</h4><ul><li><a href="pattern.html">All Patterns</a></li><li><a href="pattern.html">Sweaters</a></li><li><a href="pattern.html">Baby & Kids</a></li></ul></div>
-    <div class="ft-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div>
+      <div class="ft-brand">Still <em>Hour</em> Knits</div>
+      <p class="ft-tag" data-i18n="footer.tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p>
+    </div>
+    <div class="ft-col">
+      <h4 data-i18n="footer.explore">Explore</h4>
+      <ul>
+        <li><a href="pattern.html" data-i18n="footer.all">All Patterns</a></li>
+        <li><a href="pattern.html" data-i18n="footer.sweaters">Sweaters</a></li>
+        <li><a href="pattern.html" data-i18n="footer.baby">Baby & Kids</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4 data-i18n="footer.studio">Studio</h4>
+      <ul>
+        <li><a href="about.html" data-i18n="nav.about">About</a></li>
+        <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        <li><a href="https://www.ravelry.com/designers/StillHourKnits" target="_blank">Ravelry</a></li>
+        <li><a href="mailto:info@stillhourknits.com">info@stillhourknits.com</a></li>
+      </ul>
+    </div>
   </div>
-  <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — All rights reserved</span><span class="ft-copy">Made with patience ✦</span></div>
+  <div class="ft-btm">
+    <span class="ft-copy">© 2025 <em>Still Hour Knits</em> — <span data-i18n="footer.rights">All rights reserved</span></span>
+    <span class="ft-copy" data-i18n="footer.made">Made with patience ✦</span>
+  </div>
 </footer>
+
 <script>
+const i18n = {
+  en: {
+    "nav.patterns":"Patterns","nav.about":"About","nav.contact":"Contact",
+    "hero.eyebrow":"New Collection — 2025",
+    "hero.title":"Knitted with<br><em>patience & love</em>",
+    "hero.desc":"Still Hour Knits is a small studio of thoughtfully designed patterns — cozy, textured pieces for adults and little ones, made for the quiet, unhurried hours only knitting can give.",
+    "hero.cta":"Explore the patterns","hero.scroll":"Scroll",
+    "intro.title":"Knitting as <em>meditation</em>",
+    "intro.body":"There is a particular kind of calm that comes only from following a pattern — the rhythmic click of needles, the slow satisfaction of each completed row. Still Hour Knits was born from that feeling. Every pattern is crafted to bring you into a quiet, unhurried state where patience becomes its own reward.",
+    "intro.aside":"Still hours<br>waiting for you",
+    "collection.title":"The<br><em>collection</em>",
+    "collection.note":"Cozy textures and thoughtful construction — patterns for sweaters and little ones",
+    "tag.featured":"Featured","tag.soon":"Coming soon","tag.baby":"Baby",
+    "meta.adult":"Adult","meta.intermediate":"Intermediate","meta.beginner":"Beginner","meta.easy":"Easy","meta.bulky":"Bulky weight",
+    "phil.label":"The philosophy",
+    "phil.quote":"Every stitch<br>a small act of<br><em>patience & care</em>",
+    "phil.p1":"Knitting demands something rare from us — it asks us to slow down, to pay attention, and to trust the process. In a world of instant gratification, there is something quietly radical about making something by hand, row by careful row.",
+    "phil.p2":"I started knitting as a way to find stillness in busy days. That feeling — absorbed, calm, completely present — is what I want every Still Hour Knits pattern to give you.",
+    "phil.v1title":"Patience","phil.v1desc":"Patterns designed to reward careful, unhurried work",
+    "phil.v2title":"Texture","phil.v2desc":"Rich, tactile designs that feel as good as they look",
+    "phil.v3title":"Stillness","phil.v3desc":"A reminder that some of the best things take time",
+    "nl.title":"Be the first<br>to <em>know</em>",
+    "nl.desc":"New patterns, behind-the-scenes process notes, and quiet thoughts from the studio — straight to your inbox. No noise, no spam. Only the good stuff, when it is ready.",
+    "nl.placeholder":"Your email address…","nl.btn":"Subscribe","nl.note":"No noise. Only stillness.",
+    "footer.tag":"Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.",
+    "footer.explore":"Explore","footer.all":"All Patterns","footer.sweaters":"Sweaters","footer.baby":"Baby & Kids",
+    "footer.studio":"Studio","footer.rights":"All rights reserved","footer.made":"Made with patience ✦"
+  },
+  es: {
+    "nav.patterns":"Patrones","nav.about":"Acerca de","nav.contact":"Contacto",
+    "hero.eyebrow":"Nueva Colección — 2025",
+    "hero.title":"Tejido con<br><em>paciencia y amor</em>",
+    "hero.desc":"Still Hour Knits es un pequeño estudio de patrones de tejido cuidadosamente diseñados — piezas acogedoras y texturizadas para adultos y pequeños, hechas para esas horas tranquilas y sin prisa que solo el tejido puede ofrecer.",
+    "hero.cta":"Explorar los patrones","hero.scroll":"Deslizar",
+    "intro.title":"Tejer como <em>meditación</em>",
+    "intro.body":"Hay una calma particular que solo viene de seguir un patrón — el ritmo de las agujas, la lenta satisfacción de cada vuelta completada. Still Hour Knits nació de ese sentimiento. Cada patrón está diseñado para llevarte a un estado tranquilo y pausado donde la paciencia se convierte en su propia recompensa.",
+    "intro.aside":"Horas tranquilas<br>esperándote",
+    "collection.title":"La<br><em>colección</em>",
+    "collection.note":"Texturas acogedoras y construcción cuidadosa — patrones para jerseys y los más pequeños",
+    "tag.featured":"Destacado","tag.soon":"Próximamente","tag.baby":"Bebé",
+    "meta.adult":"Adulto","meta.intermediate":"Intermedio","meta.beginner":"Principiante","meta.easy":"Fácil","meta.bulky":"Grosor grueso",
+    "phil.label":"La filosofía",
+    "phil.quote":"Cada punto<br>un pequeño acto de<br><em>paciencia y cuidado</em>",
+    "phil.p1":"Tejer nos exige algo poco común — nos pide que reduzcamos el ritmo, que prestemos atención y que confiemos en el proceso. En un mundo de gratificación instantánea, hay algo sutilmente radical en hacer algo a mano, vuelta a vuelta.",
+    "phil.p2":"Empecé a tejer como una forma de encontrar calma en los días ocupados. Esa sensación — absorbida, tranquila, completamente presente — es lo que quiero que cada patrón de Still Hour Knits te dé.",
+    "phil.v1title":"Paciencia","phil.v1desc":"Patrones diseñados para recompensar el trabajo cuidadoso y sin prisa",
+    "phil.v2title":"Textura","phil.v2desc":"Diseños táctiles y ricos que se sienten tan bien como se ven",
+    "phil.v3title":"Quietud","phil.v3desc":"Un recordatorio de que las mejores cosas requieren tiempo",
+    "nl.title":"Sé la primera<br>en <em>saberlo</em>",
+    "nl.desc":"Nuevos patrones, notas del proceso y pensamientos tranquilos del estudio — directamente a tu bandeja de entrada. Sin ruido, sin spam. Solo lo bueno, cuando esté listo.",
+    "nl.placeholder":"Tu dirección de email…","nl.btn":"Suscribirse","nl.note":"Sin ruido. Solo quietud.",
+    "footer.tag":"Patrones elaborados con paciencia para jerseys y tejidos para bebés — diseñados para esas horas tranquilas y enfocadas que solo el tejido puede dar.",
+    "footer.explore":"Explorar","footer.all":"Todos los patrones","footer.sweaters":"Jerseys","footer.baby":"Bebé y niños",
+    "footer.studio":"Estudio","footer.rights":"Todos los derechos reservados","footer.made":"Hecho con paciencia ✦"
+  },
+  fr: {
+    "nav.patterns":"Patrons","nav.about":"À propos","nav.contact":"Contact",
+    "hero.eyebrow":"Nouvelle Collection — 2025",
+    "hero.title":"Tricoté avec<br><em>patience et amour</em>",
+    "hero.desc":"Still Hour Knits est un petit studio de patrons de tricot soigneusement conçus — des pièces douces et texturées pour adultes et tout-petits, faites pour ces heures tranquilles et sans hâte que seul le tricot peut offrir.",
+    "hero.cta":"Explorer les patrons","hero.scroll":"Défiler",
+    "intro.title":"Le tricot comme <em>méditation</em>",
+    "intro.body":"Il existe une sérénité particulière qui ne vient que du suivi d'un patron — le cliquetis rythmique des aiguilles, la lente satisfaction de chaque rang terminé. Still Hour Knits est né de ce sentiment. Chaque patron est conçu pour vous amener dans un état calme et sans précipitation où la patience devient sa propre récompense.",
+    "intro.aside":"Des heures tranquilles<br>vous attendent",
+    "collection.title":"La<br><em>collection</em>",
+    "collection.note":"Textures douces et construction réfléchie — patrons pour pulls et tout-petits",
+    "tag.featured":"En vedette","tag.soon":"Bientôt disponible","tag.baby":"Bébé",
+    "meta.adult":"Adulte","meta.intermediate":"Intermédiaire","meta.beginner":"Débutant","meta.easy":"Facile","meta.bulky":"Grosse laine",
+    "phil.label":"La philosophie",
+    "phil.quote":"Chaque maille<br>un petit acte de<br><em>patience et soin</em>",
+    "phil.p1":"Le tricot nous demande quelque chose de rare — il nous invite à ralentir, à faire attention et à faire confiance au processus. Dans un monde de gratification instantanée, il y a quelque chose de subtilement radical à créer quelque chose à la main, rang après rang.",
+    "phil.p2":"J'ai commencé à tricoter pour trouver la sérénité dans les journées chargées. Ce sentiment — absorbée, calme, complètement présente — est ce que je veux que chaque patron de Still Hour Knits vous apporte.",
+    "phil.v1title":"Patience","phil.v1desc":"Des patrons conçus pour récompenser un travail soigneux et sans hâte",
+    "phil.v2title":"Texture","phil.v2desc":"Des créations tactiles et riches qui se sentent aussi bien qu'elles se voient",
+    "phil.v3title":"Sérénité","phil.v3desc":"Un rappel que les meilleures choses prennent du temps",
+    "nl.title":"Soyez la première<br>à <em>le savoir</em>",
+    "nl.desc":"Nouveaux patrons, notes de processus et pensées tranquilles du studio — directement dans votre boîte mail. Pas de bruit, pas de spam. Seulement le meilleur, quand c'est prêt.",
+    "nl.placeholder":"Votre adresse email…","nl.btn":"S'abonner","nl.note":"Pas de bruit. Seulement la sérénité.",
+    "footer.tag":"Patrons élaborés avec patience pour des pulls et des tricots pour bébés — conçus pour ces heures calmes et concentrées que seul le tricot peut donner.",
+    "footer.explore":"Explorer","footer.all":"Tous les patrons","footer.sweaters":"Pulls","footer.baby":"Bébé et enfants",
+    "footer.studio":"Studio","footer.rights":"Tous droits réservés","footer.made":"Fait avec patience ✦"
+  },
+  pt: {
+    "nav.patterns":"Padrões","nav.about":"Sobre","nav.contact":"Contacto",
+    "hero.eyebrow":"Nova Coleção — 2025",
+    "hero.title":"Tricotado com<br><em>paciência e amor</em>",
+    "hero.desc":"Still Hour Knits é um pequeno estúdio de padrões de tricot cuidadosamente desenhados — peças aconchegantes e texturizadas para adultos e pequeninos, feitas para as horas tranquilas e sem pressa que só o tricot pode oferecer.",
+    "hero.cta":"Explorar os padrões","hero.scroll":"Deslizar",
+    "intro.title":"Tricotar como <em>meditação</em>",
+    "intro.body":"Há uma calma particular que só vem de seguir um padrão — o ritmo das agulhas, a lenta satisfação de cada carreira completada. Still Hour Knits nasceu desse sentimento. Cada padrão é criado para te levar a um estado tranquilo e sem pressa onde a paciência se torna a sua própria recompensa.",
+    "intro.aside":"Horas tranquilas<br>à tua espera",
+    "collection.title":"A<br><em>coleção</em>",
+    "collection.note":"Texturas aconchegantes e construção cuidadosa — padrões para camisolas e pequeninos",
+    "tag.featured":"Destaque","tag.soon":"Em breve","tag.baby":"Bebé",
+    "meta.adult":"Adulto","meta.intermediate":"Intermédio","meta.beginner":"Iniciante","meta.easy":"Fácil","meta.bulky":"Fio grosso",
+    "phil.label":"A filosofia",
+    "phil.quote":"Cada ponto<br>um pequeno ato de<br><em>paciência e cuidado</em>",
+    "phil.p1":"Tricotar exige algo raro de nós — pede-nos que abrandemos, que prestemos atenção e que confiemos no processo. Num mundo de gratificação instantânea, há algo subtilmente radical em fazer algo à mão, carreira a carreira.",
+    "phil.p2":"Comecei a tricotar como forma de encontrar tranquilidade nos dias agitados. Essa sensação — absorta, calma, completamente presente — é o que quero que cada padrão da Still Hour Knits te dê.",
+    "phil.v1title":"Paciência","phil.v1desc":"Padrões concebidos para recompensar o trabalho cuidadoso e sem pressa",
+    "phil.v2title":"Textura","phil.v2desc":"Criações tácteis e ricas que se sentem tão bem como se veem",
+    "phil.v3title":"Serenidade","phil.v3desc":"Um lembrete de que as melhores coisas levam tempo",
+    "nl.title":"Seja a primeira<br>a <em>saber</em>",
+    "nl.desc":"Novos padrões, notas do processo e pensamentos tranquilos do estúdio — diretamente para a tua caixa de entrada. Sem ruído, sem spam. Só o melhor, quando estiver pronto.",
+    "nl.placeholder":"O teu endereço de email…","nl.btn":"Subscrever","nl.note":"Sem ruído. Só serenidade.",
+    "footer.tag":"Padrões elaborados com paciência para camisolas aconchegantes e tricots para bebés — concebidos para as horas tranquilas e focadas que só o tricot pode dar.",
+    "footer.explore":"Explorar","footer.all":"Todos os padrões","footer.sweaters":"Camisolas","footer.baby":"Bebé e crianças",
+    "footer.studio":"Estúdio","footer.rights":"Todos os direitos reservados","footer.made":"Feito com paciência ✦"
+  }
+};
+
+let currentLang = localStorage.getItem('shk-lang') || 'en';
+
+function applyLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('shk-lang', lang);
+  const t = i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (t[key]) el.innerHTML = t[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key]) el.placeholder = t[key];
+  });
+  document.getElementById('langBtn').textContent = lang.toUpperCase() + ' ▾';
+  document.querySelectorAll('.lang-option').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === lang);
+  });
+  ['EN','ES','FR','PT'].forEach(code => {
+    const btn = document.getElementById('ml'+code);
+    if (btn) btn.classList.toggle('active', code.toLowerCase() === lang);
+  });
+  document.documentElement.lang = lang;
+}
+
+function setLang(lang) {
+  applyLang(lang);
+  closeLang();
+}
+
+function toggleLang() {
+  document.getElementById('langDropdown').classList.toggle('open');
+}
+
+function closeLang() {
+  document.getElementById('langDropdown').classList.remove('open');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.lang-switcher')) closeLang();
+});
+
 function toggleMenu(){
   const m=document.getElementById('mobileMenu');
   const btn=document.getElementById('hamburgerBtn');
@@ -234,16 +493,41 @@ function toggleMenu(){
   const isOpen=m.classList.contains('open');
   document.body.style.overflow=isOpen?'hidden':'';
   if(btn){
-    if(isOpen){
-      btn.innerHTML='<span style="transform:rotate(45deg) translate(4px,4px)"></span><span style="opacity:0;width:22px"></span><span style="transform:rotate(-45deg) translate(4px,-4px)"></span>';
-    } else {
-      btn.innerHTML='<span></span><span></span><span></span>';
-    }
+    if(isOpen){btn.innerHTML='<span style="transform:rotate(45deg) translate(4px,4px)"></span><span style="opacity:0;width:22px"></span><span style="transform:rotate(-45deg) translate(4px,-4px)"></span>';}
+    else{btn.innerHTML='<span></span><span></span><span></span>';}
   }
-}}
-function drawKnit(canvas,opts){if(!canvas)return;const{bg,yarn,hi,sh,sw=20,sh2=15}=opts;const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);const cols=Math.ceil(W/sw)+2,rows=Math.ceil(H/sh2)+2;for(let r=-1;r<rows;r++){for(let c=-1;c<cols;c++){const odd=r%2===0;const x=c*sw+(odd?0:sw*.5),y=r*sh2;const cx2=x+sw*.5,cy2=y+sh2*.5,rw=sw*.44,rh=sh2*.38;ctx.beginPath();ctx.ellipse(cx2-sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=sh;ctx.lineWidth=1.8;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2+sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=yarn;ctx.lineWidth=2.1;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2,cy2-rh*.3,rw*.55,rh*.35,0,Math.PI,0);ctx.strokeStyle=hi;ctx.lineWidth=1.1;ctx.globalAlpha=.52;ctx.stroke();ctx.globalAlpha=1;}}}
-function init(id,opts){const el=document.getElementById(id);if(!el)return;const pr=window.devicePixelRatio||1;const r=el.parentElement.getBoundingClientRect();el.width=Math.round(r.width*pr)||500;el.height=Math.round(r.height*pr)||400;el.style.width='100%';el.style.height='100%';drawKnit(el,opts);}
-window.addEventListener('load',()=>{init('heroC',{bg:'#e8dac8',yarn:'#c09898',hi:'#d4b0a8',sh:'#a08070',sw:24,sh2:18});init('c1',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:20,sh2:15});init('c2',{bg:'#ddd4c8',yarn:'#b8a898',hi:'#ccc0b0',sh:'#988878',sw:18,sh2:13});init('c3',{bg:'#d8e0d4',yarn:'#a8b8a0',hi:'#b8c8b0',sh:'#889880',sw:20,sh2:15});init('c4',{bg:'#dcd4dc',yarn:'#b8a8c0',hi:'#ccbcd0',sh:'#988898',sw:18,sh2:13});});
+}
+
+function drawKnit(canvas,opts){
+  if(!canvas)return;
+  const{bg,yarn,hi,sh,sw=20,sh2=15}=opts;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  const cols=Math.ceil(W/sw)+2,rows=Math.ceil(H/sh2)+2;
+  for(let r=-1;r<rows;r++){for(let c=-1;c<cols;c++){
+    const odd=r%2===0;const x=c*sw+(odd?0:sw*.5),y=r*sh2;
+    const cx2=x+sw*.5,cy2=y+sh2*.5,rw=sw*.44,rh=sh2*.38;
+    ctx.beginPath();ctx.ellipse(cx2-sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=sh;ctx.lineWidth=1.8;ctx.stroke();
+    ctx.beginPath();ctx.ellipse(cx2+sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=yarn;ctx.lineWidth=2.1;ctx.stroke();
+    ctx.beginPath();ctx.ellipse(cx2,cy2-rh*.3,rw*.55,rh*.35,0,Math.PI,0);ctx.strokeStyle=hi;ctx.lineWidth=1.1;ctx.globalAlpha=.52;ctx.stroke();ctx.globalAlpha=1;
+  }}
+}
+function init(id,opts){
+  const el=document.getElementById(id);if(!el)return;
+  const pr=window.devicePixelRatio||1;
+  const r=el.parentElement.getBoundingClientRect();
+  el.width=Math.round(r.width*pr)||500;el.height=Math.round(r.height*pr)||400;
+  el.style.width='100%';el.style.height='100%';drawKnit(el,opts);
+}
+window.addEventListener('load',()=>{
+  init('heroC',{bg:'#e8dac8',yarn:'#c09898',hi:'#d4b0a8',sh:'#a08070',sw:24,sh2:18});
+  init('c1',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:20,sh2:15});
+  init('c2',{bg:'#ddd4c8',yarn:'#b8a898',hi:'#ccc0b0',sh:'#988878',sw:18,sh2:13});
+  init('c3',{bg:'#d8e0d4',yarn:'#a8b8a0',hi:'#b8c8b0',sh:'#889880',sw:20,sh2:15});
+  init('c4',{bg:'#dcd4dc',yarn:'#b8a8c0',hi:'#ccbcd0',sh:'#988898',sw:18,sh2:13});
+  applyLang(currentLang);
+});
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.08});
 document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
 </script>
