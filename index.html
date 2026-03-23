@@ -17,7 +17,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .nav-links a{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--rose)}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
-.hamburger span{width:22px;height:1px;background:var(--ink);display:block}
+.hamburger span{width:22px;height:1px;background:var(--ink);display:block;transition:all .3s ease;transform-origin:center}
 .mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:36px}
 .mobile-menu.open{display:flex}
 .mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none}
@@ -159,19 +159,16 @@ footer{background:var(--ink);padding:52px 56px 32px}
   <ul class="nav-links">
     <li><a href="index.html">Patterns</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="index.html">Journal</a></li>
-    <li><a href="index.html">Contact</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
   <a href="index.html" onclick="toggleMenu()">Patterns</a>
   <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="index.html" onclick="toggleMenu()">Journal</a>
-  <a href="index.html" onclick="toggleMenu()">Contact</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
 </div>
 <section class="hero">
   <div class="hero-left">
@@ -225,12 +222,25 @@ footer{background:var(--ink);padding:52px 56px 32px}
   <div class="ft">
     <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p></div>
     <div class="ft-col"><h4>Explore</h4><ul><li><a href="pattern.html">All Patterns</a></li><li><a href="pattern.html">Sweaters</a></li><li><a href="pattern.html">Baby & Kids</a></li></ul></div>
-    <div class="ft-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="index.html">Journal</a></li><li><a href="index.html">Contact</a></li></ul></div>
+    <div class="ft-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
   </div>
   <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — All rights reserved</span><span class="ft-copy">Made with patience ✦</span></div>
 </footer>
 <script>
-function toggleMenu(){const m=document.getElementById('mobileMenu');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
+function toggleMenu(){
+  const m=document.getElementById('mobileMenu');
+  const btn=document.getElementById('hamburgerBtn');
+  m.classList.toggle('open');
+  const isOpen=m.classList.contains('open');
+  document.body.style.overflow=isOpen?'hidden':'';
+  if(btn){
+    if(isOpen){
+      btn.innerHTML='<span style="transform:rotate(45deg) translate(4px,4px)"></span><span style="opacity:0;width:22px"></span><span style="transform:rotate(-45deg) translate(4px,-4px)"></span>';
+    } else {
+      btn.innerHTML='<span></span><span></span><span></span>';
+    }
+  }
+}}
 function drawKnit(canvas,opts){if(!canvas)return;const{bg,yarn,hi,sh,sw=20,sh2=15}=opts;const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);const cols=Math.ceil(W/sw)+2,rows=Math.ceil(H/sh2)+2;for(let r=-1;r<rows;r++){for(let c=-1;c<cols;c++){const odd=r%2===0;const x=c*sw+(odd?0:sw*.5),y=r*sh2;const cx2=x+sw*.5,cy2=y+sh2*.5,rw=sw*.44,rh=sh2*.38;ctx.beginPath();ctx.ellipse(cx2-sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=sh;ctx.lineWidth=1.8;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2+sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=yarn;ctx.lineWidth=2.1;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2,cy2-rh*.3,rw*.55,rh*.35,0,Math.PI,0);ctx.strokeStyle=hi;ctx.lineWidth=1.1;ctx.globalAlpha=.52;ctx.stroke();ctx.globalAlpha=1;}}}
 function init(id,opts){const el=document.getElementById(id);if(!el)return;const pr=window.devicePixelRatio||1;const r=el.parentElement.getBoundingClientRect();el.width=Math.round(r.width*pr)||500;el.height=Math.round(r.height*pr)||400;el.style.width='100%';el.style.height='100%';drawKnit(el,opts);}
 window.addEventListener('load',()=>{init('heroC',{bg:'#e8dac8',yarn:'#c09898',hi:'#d4b0a8',sh:'#a08070',sw:24,sh2:18});init('c1',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:20,sh2:15});init('c2',{bg:'#ddd4c8',yarn:'#b8a898',hi:'#ccc0b0',sh:'#988878',sw:18,sh2:13});init('c3',{bg:'#d8e0d4',yarn:'#a8b8a0',hi:'#b8c8b0',sh:'#889880',sw:20,sh2:15});init('c4',{bg:'#dcd4dc',yarn:'#b8a8c0',hi:'#ccbcd0',sh:'#988898',sw:18,sh2:13});});
