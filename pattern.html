@@ -16,13 +16,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .nav-links{display:flex;gap:28px;list-style:none}
 .nav-links a{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
 .nav-links a:hover,.nav-links a.active{color:var(--rose)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang-switcher{position:relative}
+.lang-btn{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;display:flex;align-items:center;gap:5px;transition:all .3s}
+.lang-btn:hover{border-color:var(--rose);color:var(--rose)}
+.lang-btn::after{content:'▾';font-size:7px}
+.lang-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--ivory);border:1px solid var(--faint);min-width:72px;z-index:200;box-shadow:0 8px 24px rgba(58,36,40,.08)}
+.lang-dropdown.open{display:block}
+.lang-option{display:block;width:100%;background:none;border:none;font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:8px 12px;text-align:left;transition:all .3s}
+.lang-option:hover,.lang-option.active{color:var(--rose);background:var(--linen)}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
-.hamburger span{width:22px;height:1px;background:var(--ink);display:block}
-.mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:36px}
+.hamburger span{width:22px;height:1px;background:var(--ink);display:block;transition:all .3s ease;transform-origin:center}
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:32px}
 .mobile-menu.open{display:flex}
 .mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none}
 .mobile-menu a:hover{color:var(--rose)}
-.mobile-close{position:absolute;top:24px;right:28px;font-size:26px;background:none;border:none;cursor:pointer;color:var(--ink)}
+.mobile-lang{display:flex;gap:8px;margin-top:8px;padding-top:24px;border-top:1px solid var(--faint)}
+.mobile-lang button{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;transition:all .3s}
+.mobile-lang button.active,.mobile-lang button:hover{color:var(--rose);border-color:var(--rose)}
 .breadcrumb{padding:100px 56px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .breadcrumb a{font-size:9px;font-weight:300;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
 .breadcrumb a:hover{color:var(--rose)}
@@ -124,42 +135,24 @@ footer{background:var(--ink);padding:52px 56px 32px}
 .ft-copy em{font-style:italic;font-family:'Cormorant Garamond',serif}
 .fu{opacity:0;transform:translateY(20px);transition:opacity .85s ease,transform .85s ease}
 .fu.vis{opacity:1;transform:none}
-
 @media(max-width:768px){
-  nav{padding:18px 24px}
-  .nav-links{display:none}
-  .hamburger{display:flex}
+  nav{padding:18px 24px}.nav-links{display:none}.hamburger{display:flex}
   .breadcrumb{padding:84px 24px 0}
   .pattern-hero{grid-template-columns:1fr;padding:24px 24px 0}
   .ph-info{padding:28px 0 0}
   .ph-info h1{font-size:clamp(32px,9vw,50px)}
-  .specs{grid-template-columns:1fr 1fr}
   .divider{padding:0 24px}
   .pattern-details{grid-template-columns:1fr;padding:52px 24px;gap:36px}
-  .construction{padding:52px 24px}
-  .con-steps{grid-template-columns:1fr 1fr}
-  .sizing{padding:52px 24px}
-  .sizing h2{font-size:28px}
-  .yarn-rec{padding:52px 24px}
-  .yr-title{font-size:28px}
-  .yr-grid{grid-template-columns:1fr}
-  .more{padding:52px 24px}
-  .more-grid{grid-template-columns:1fr 1fr}
-  footer{padding:40px 24px 28px}
-  .ft{grid-template-columns:1fr;gap:32px}
-  .ft-btm{flex-direction:column;align-items:flex-start}
+  .construction{padding:52px 24px}.con-steps{grid-template-columns:1fr 1fr}
+  .sizing{padding:52px 24px}.sizing h2{font-size:28px}
+  .yarn-rec{padding:52px 24px}.yr-title{font-size:28px}.yr-grid{grid-template-columns:1fr}
+  .more{padding:52px 24px}.more-grid{grid-template-columns:1fr 1fr}
+  footer{padding:40px 24px 28px}.ft{grid-template-columns:1fr;gap:32px}.ft-btm{flex-direction:column;align-items:flex-start}
 }
 @media(max-width:480px){
-  .breadcrumb{padding:80px 20px 0}
-  .pattern-hero{padding:20px 20px 0}
-  .divider{padding:0 20px}
-  .pattern-details{padding:44px 20px}
-  .construction{padding:44px 20px}
-  .con-steps{grid-template-columns:1fr}
-  .sizing{padding:44px 20px}
-  .yarn-rec{padding:44px 20px}
-  .more{padding:44px 20px}
-  .more-grid{grid-template-columns:1fr}
+  .breadcrumb{padding:80px 20px 0}.pattern-hero{padding:20px 20px 0}.divider{padding:0 20px}
+  .pattern-details{padding:44px 20px}.construction{padding:44px 20px}.con-steps{grid-template-columns:1fr}
+  .sizing{padding:44px 20px}.yarn-rec{padding:44px 20px}.more{padding:44px 20px}.more-grid{grid-template-columns:1fr}
   footer{padding:36px 20px 24px}
 }
 </style>
@@ -168,62 +161,113 @@ footer{background:var(--ink);padding:52px 56px 32px}
 <nav>
   <a class="logo" href="index.html">Still <em>Hour</em> Knits</a>
   <ul class="nav-links">
-    <li><a href="index.html" class="active">Patterns</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="index.html">Journal</a></li>
-    <li><a href="index.html">Contact</a></li>
+    <li><a href="index.html" class="active" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="about.html" data-i18n="nav.about">About</a></li>
+    <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-option active" onclick="setLang('en')">EN</button>
+        <button class="lang-option" onclick="setLang('es')">ES</button>
+        <button class="lang-option" onclick="setLang('fr')">FR</button>
+        <button class="lang-option" onclick="setLang('pt')">PT</button>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
-  <a href="index.html" onclick="toggleMenu()">Patterns</a>
-  <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="index.html" onclick="toggleMenu()">Journal</a>
-  <a href="index.html" onclick="toggleMenu()">Contact</a>
+  <a href="index.html" onclick="toggleMenu()" data-i18n="nav.patterns">Patterns</a>
+  <a href="about.html" onclick="toggleMenu()" data-i18n="nav.about">About</a>
+  <a href="contact.html" onclick="toggleMenu()" data-i18n="nav.contact">Contact</a>
+  <div class="mobile-lang">
+    <button onclick="setLang('en');toggleMenu()" id="mlEN" class="active">EN</button>
+    <button onclick="setLang('es');toggleMenu()" id="mlES">ES</button>
+    <button onclick="setLang('fr');toggleMenu()" id="mlFR">FR</button>
+    <button onclick="setLang('pt');toggleMenu()" id="mlPT">PT</button>
+  </div>
 </div>
+
 <div class="breadcrumb">
-  <a href="index.html">Home</a><span class="breadcrumb-sep">/</span>
-  <a href="index.html">Patterns</a><span class="breadcrumb-sep">/</span>
+  <a href="index.html" data-i18n="bc.home">Home</a><span class="breadcrumb-sep">/</span>
+  <a href="index.html" data-i18n="nav.patterns">Patterns</a><span class="breadcrumb-sep">/</span>
   <span>The Morrowfield Sweater</span>
 </div>
+
 <div class="pattern-hero fu">
-  <div class="ph-image"><canvas id="mainC"></canvas><div class="ph-tag">Sweater</div><div class="ph-coming">Coming soon</div></div>
+  <div class="ph-image">
+    <canvas id="mainC"></canvas>
+    <div class="ph-tag" data-i18n="tag.featured">Featured</div>
+    <div class="ph-coming" data-i18n="tag.soon">Coming soon</div>
+  </div>
   <div class="ph-info">
-    <div class="ph-eyebrow">Adult pattern</div>
+    <div class="ph-eyebrow" data-i18n="p.eyebrow">Adult pattern</div>
     <h1>The Morrowfield<br><em>Sweater</em></h1>
-    <p class="ph-subtitle">A cozy, textured top-down raglan</p>
+    <p class="ph-subtitle" data-i18n="p.subtitle">A cozy, textured top-down raglan</p>
     <div class="specs">
-      <div class="spec"><div class="spec-label">Yarn weight</div><div class="spec-val">Bulky (weight 5)</div></div>
-      <div class="spec"><div class="spec-label">Needle size</div><div class="spec-val">6.0 mm / US 10</div></div>
-      <div class="spec"><div class="spec-label">Gauge</div><div class="spec-val">14 sts × 18 rows / 10 cm</div></div>
-      <div class="spec"><div class="spec-label">Finished length</div><div class="spec-val">~58–65 cm</div></div>
-      <div class="spec"><div class="spec-label">Construction</div><div class="spec-val">Top-down, seamless</div></div>
-      <div class="spec"><div class="spec-label">Yarn quantity</div><div class="spec-val">350–600 g</div></div>
+      <div class="spec"><div class="spec-label" data-i18n="p.label.weight">Yarn weight</div><div class="spec-val">Bulky (weight 5)</div></div>
+      <div class="spec"><div class="spec-label" data-i18n="p.label.needle">Needle size</div><div class="spec-val">6.0 mm / US 10</div></div>
+      <div class="spec"><div class="spec-label" data-i18n="p.label.gauge">Gauge</div><div class="spec-val">14 sts × 18 rows / 10 cm</div></div>
+      <div class="spec"><div class="spec-label" data-i18n="p.label.length">Finished length</div><div class="spec-val">~58–65 cm</div></div>
+      <div class="spec"><div class="spec-label" data-i18n="p.label.construction">Construction</div><div class="spec-val">Top-down, seamless</div></div>
+      <div class="spec"><div class="spec-label" data-i18n="p.label.yarn">Yarn quantity</div><div class="spec-val">350–600 g</div></div>
     </div>
     <div class="difficulty">
-      <div class="diff-label">Difficulty</div>
-      <div class="diff-dots"><div class="diff-dot filled"></div><div class="diff-dot filled"></div><div class="diff-dot filled"></div><div class="diff-dot"></div><div class="diff-dot"></div><span class="diff-text">Intermediate</span></div>
+      <div class="diff-label" data-i18n="p.diff.label">Difficulty</div>
+      <div class="diff-dots">
+        <div class="diff-dot filled"></div><div class="diff-dot filled"></div><div class="diff-dot filled"></div>
+        <div class="diff-dot"></div><div class="diff-dot"></div>
+        <span class="diff-text" data-i18n="p.diff.text">Intermediate</span>
+      </div>
     </div>
-    <p class="ph-desc">The Morrowfield is a relaxed, oversized sweater worked top-down in a seamless raglan. The body features a simple waffle texture that adds depth without demanding complex techniques. It is the kind of sweater you reach for every morning — warm, easy to wear, and satisfying to knit. Designed for sizes XS to 3XL with full graded instructions at every size.</p>
+    <p class="ph-desc" data-i18n="p.desc">The Morrowfield is a relaxed, oversized sweater worked top-down in a seamless raglan. The body features a simple waffle texture that adds depth without demanding complex techniques. It is the kind of sweater you reach for every morning — warm, easy to wear, and satisfying to knit. Designed for sizes XS to 3XL with full graded instructions at every size.</p>
     <div class="notify-wrap">
-      <button class="btn-notify">Notify me when available</button>
-      <button class="btn-save">Save to wishlist</button>
-      <p class="notify-note">You will receive one email when this pattern launches. No spam.</p>
+      <button class="btn-notify" data-i18n="p.notify">Notify me when available</button>
+      <button class="btn-save" data-i18n="p.save">Save to wishlist</button>
+      <p class="notify-note" data-i18n="p.note">You will receive one email when this pattern launches. No spam.</p>
     </div>
   </div>
 </div>
+
 <div style="height:56px"></div>
 <div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
+
 <div class="pattern-details fu">
-  <div class="pd-block"><h3>What you'll <em>need</em></h3><ul class="pd-list"><li>6.0 mm circular needle, 80 cm or longer</li><li>6.0 mm DPNs or magic loop for sleeves</li><li>Stitch markers (8 recommended)</li><li>Tapestry needle for finishing</li><li>Scissors</li><li>Measuring tape</li></ul></div>
-  <div class="pd-block"><h3>Techniques <em>used</em></h3><ul class="pd-list"><li>Long-tail cast on</li><li>Raglan increases (M1L, M1R)</li><li>Waffle stitch texture</li><li>Picking up sleeve stitches</li><li>1×1 ribbing for cuffs and hem</li><li>Joining in the round</li><li>Basic blocking</li></ul></div>
-  <div class="pd-block"><h3>Pattern <em>includes</em></h3><ul class="pd-list"><li>Full written instructions in English</li><li>Sizes XS — 3XL (7 sizes)</li><li>Schematic with finished measurements</li><li>Stitch glossary and abbreviations</li><li>Notes for adjusting length</li><li>Yarn substitution guide</li><li>PDF download, printable format</li></ul></div>
+  <div class="pd-block">
+    <h3 data-i18n-html="p.need.title">What you'll <em>need</em></h3>
+    <ul class="pd-list">
+      <li>6.0 mm circular needle, 80 cm or longer</li><li>6.0 mm DPNs or magic loop for sleeves</li>
+      <li>Stitch markers (8 recommended)</li><li>Tapestry needle for finishing</li>
+      <li>Scissors</li><li>Measuring tape</li>
+    </ul>
+  </div>
+  <div class="pd-block">
+    <h3 data-i18n-html="p.tech.title">Techniques <em>used</em></h3>
+    <ul class="pd-list">
+      <li>Long-tail cast on</li><li>Raglan increases (M1L, M1R)</li>
+      <li>Waffle stitch texture</li><li>Picking up sleeve stitches</li>
+      <li>1×1 ribbing for cuffs and hem</li><li>Joining in the round</li><li>Basic blocking</li>
+    </ul>
+  </div>
+  <div class="pd-block">
+    <h3 data-i18n-html="p.inc.title">Pattern <em>includes</em></h3>
+    <ul class="pd-list">
+      <li>Full written instructions in English</li><li>Sizes XS — 3XL (7 sizes)</li>
+      <li>Schematic with finished measurements</li><li>Stitch glossary and abbreviations</li>
+      <li>Notes for adjusting length</li><li>Yarn substitution guide</li><li>PDF download, printable format</li>
+    </ul>
+  </div>
 </div>
+
 <div class="construction fu">
-  <div class="con-header"><h2 class="con-title">How it's<br><em>constructed</em></h2><p class="con-note">Top-down, seamless — no sewing required</p></div>
+  <div class="con-header">
+    <h2 class="con-title" data-i18n-html="p.con.title">How it's<br><em>constructed</em></h2>
+    <p class="con-note" data-i18n="p.con.label">Top-down, seamless — no sewing required</p>
+  </div>
   <div class="con-steps">
     <div class="step"><span class="step-num">01</span><div class="step-title">Collar & yoke</div><p class="step-desc">Begin at the neckline with a short 1×1 rib collar. Work the raglan yoke flat first, then join to work in the round. Increases are placed at four raglan lines.</p></div>
     <div class="step"><span class="step-num">02</span><div class="step-title">Separate sleeves</div><p class="step-desc">At the underarm, sleeve stitches are placed on hold. The body continues in the round. This keeps the construction clean and avoids complicated joins.</p></div>
@@ -231,9 +275,10 @@ footer{background:var(--ink);padding:52px 56px 32px}
     <div class="step"><span class="step-num">04</span><div class="step-title">Sleeves & finish</div><p class="step-desc">Pick up sleeve stitches and work each sleeve top-down to the cuff. Finish with a ribbed hem. Block lightly to open the texture and set the shape.</p></div>
   </div>
 </div>
+
 <div class="sizing fu">
-  <h2>Sizing <em>guide</em></h2>
-  <p class="sizing-note">All measurements are finished garment measurements. For a relaxed fit, choose your size based on bust circumference and add 8–12 cm ease.</p>
+  <h2 data-i18n-html="p.size.title">Sizing <em>guide</em></h2>
+  <p class="sizing-note" data-i18n="p.size.note">All measurements are finished garment measurements. For a relaxed fit, choose your size based on bust circumference and add 8–12 cm ease.</p>
   <div class="table-wrap">
     <table class="size-table">
       <thead><tr><th>Size</th><th>Bust (cm)</th><th>Length (cm)</th><th>Sleeve (cm)</th><th>Yarn needed</th></tr></thead>
@@ -249,36 +294,55 @@ footer{background:var(--ink);padding:52px 56px 32px}
     </table>
   </div>
 </div>
+
 <div class="yarn-rec fu">
-  <div class="yr-label">Yarn</div>
-  <h2 class="yr-title">What we <em>recommend</em></h2>
+  <div class="yr-label" data-i18n="p.yarn.label">Yarn</div>
+  <h2 class="yr-title" data-i18n-html="p.yarn.title">What we <em>recommend</em></h2>
   <div class="yr-grid">
-    <div class="yc"><span class="yc-type">Best pick</span><div class="yc-name">Merino Bulky</div><p class="yc-desc">100% merino wool in bulky weight. Soft against the skin, holds the waffle texture beautifully, and comes in a wide range of natural tones.</p></div>
-    <div class="yc"><span class="yc-type">Budget option</span><div class="yc-name">Superwash Blend</div><p class="yc-desc">A merino/acrylic blend in bulky weight. Machine washable, widely available, and more affordable. Good for a first knit.</p></div>
-    <div class="yc"><span class="yc-type">Luxury pick</span><div class="yc-name">Cashmere Mix</div><p class="yc-desc">A cashmere blend gives an exceptionally soft finish and beautiful drape. Best for experienced knitters as it requires more careful handling.</p></div>
+    <div class="yc"><span class="yc-type" data-i18n="p.yc1.type">Best pick</span><div class="yc-name" data-i18n="p.yc1.name">Merino Bulky</div><p class="yc-desc" data-i18n="p.yc1.desc">100% merino wool in bulky weight. Soft against the skin, holds the waffle texture beautifully, and comes in a wide range of natural tones.</p></div>
+    <div class="yc"><span class="yc-type" data-i18n="p.yc2.type">Budget option</span><div class="yc-name" data-i18n="p.yc2.name">Superwash Blend</div><p class="yc-desc" data-i18n="p.yc2.desc">A merino/acrylic blend in bulky weight. Machine washable, widely available, and more affordable. Good for a first knit.</p></div>
+    <div class="yc"><span class="yc-type" data-i18n="p.yc3.type">Luxury pick</span><div class="yc-name" data-i18n="p.yc3.name">Cashmere Mix</div><p class="yc-desc" data-i18n="p.yc3.desc">A cashmere blend gives an exceptionally soft finish and beautiful drape. Best for experienced knitters as it requires more careful handling.</p></div>
   </div>
 </div>
+
 <div class="more fu">
-  <div class="more-hdr"><h2 class="more-title">More from the <em>collection</em></h2><a class="more-link" href="index.html">View all patterns</a></div>
+  <div class="more-hdr">
+    <h2 class="more-title" data-i18n-html="p.more.title">More from the <em>collection</em></h2>
+    <a class="more-link" href="index.html" data-i18n="p.more.link">View all patterns</a>
+  </div>
   <div class="more-grid">
-    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag">Baby</span><canvas class="mc-canvas" id="mc1"></canvas></div><div class="mc-info"><div class="mc-name">Lullaby Cardigan</div><div class="mc-meta">0–24 months · Beginner</div></div></a>
-    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag">Adult</span><canvas class="mc-canvas" id="mc2"></canvas></div><div class="mc-info"><div class="mc-name">Thistledown Cardigan</div><div class="mc-meta">Adult · Easy</div></div></a>
-    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag">Baby</span><canvas class="mc-canvas" id="mc3"></canvas></div><div class="mc-info"><div class="mc-name">First Snow Set</div><div class="mc-meta">6–36 months · Intermediate</div></div></a>
+    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag" data-i18n="tag.baby">Baby</span><canvas class="mc-canvas" id="mc1"></canvas></div><div class="mc-info"><div class="mc-name">Lullaby Cardigan</div><div class="mc-meta">0–24 months · <span data-i18n="meta.beginner">Beginner</span></div></div></a>
+    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag" data-i18n="meta.adult">Adult</span><canvas class="mc-canvas" id="mc2"></canvas></div><div class="mc-info"><div class="mc-name">Thistledown Cardigan</div><div class="mc-meta"><span data-i18n="meta.adult">Adult</span> · <span data-i18n="meta.easy">Easy</span></div></div></a>
+    <a class="mc" href="pattern.html"><div class="mc-img"><span class="mc-tag" data-i18n="tag.baby">Baby</span><canvas class="mc-canvas" id="mc3"></canvas></div><div class="mc-info"><div class="mc-name">First Snow Set</div><div class="mc-meta">6–36 months · <span data-i18n="meta.intermediate">Intermediate</span></div></div></a>
   </div>
 </div>
+
 <footer>
   <div class="ft">
-    <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p></div>
-    <div class="ft-col"><h4>Explore</h4><ul><li><a href="index.html">All Patterns</a></li><li><a href="pattern.html">Sweaters</a></li><li><a href="pattern.html">Baby & Kids</a></li></ul></div>
-    <div class="ft-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="index.html">Journal</a></li><li><a href="index.html">Contact</a></li></ul></div>
+    <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag" data-i18n="footer.tag">Patterns crafted with patience for cozy sweaters and tiny knits.</p></div>
+    <div class="ft-col"><h4 data-i18n="footer.explore">Explore</h4><ul><li><a href="index.html" data-i18n="footer.all">All Patterns</a></li><li><a href="pattern.html" data-i18n="footer.sweaters">Sweaters</a></li><li><a href="pattern.html" data-i18n="footer.baby">Baby & Kids</a></li></ul></div>
+    <div class="ft-col"><h4 data-i18n="footer.studio">Studio</h4><ul><li><a href="about.html" data-i18n="nav.about">About</a></li><li><a href="contact.html" data-i18n="nav.contact">Contact</a></li><li><a href="https://www.ravelry.com/designers/StillHourKnits" target="_blank">Ravelry</a></li><li><a href="mailto:info@stillhourknits.com">info@stillhourknits.com</a></li></ul></div>
   </div>
-  <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — All rights reserved</span><span class="ft-copy">Made with patience ✦</span></div>
+  <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — <span data-i18n="footer.rights">All rights reserved</span></span><span class="ft-copy" data-i18n="footer.made">Made with patience ✦</span></div>
 </footer>
+
 <script>
-function toggleMenu(){const m=document.getElementById('mobileMenu');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
+const i18n={
+  en:{"nav.patterns":"Patterns","nav.about":"About","nav.contact":"Contact","bc.home":"Home","tag.soon":"Coming soon","tag.featured":"Featured","tag.baby":"Baby","meta.adult":"Adult","meta.intermediate":"Intermediate","meta.beginner":"Beginner","meta.easy":"Easy","meta.bulky":"Bulky weight","p.eyebrow":"Adult pattern","p.subtitle":"A cozy, textured top-down raglan","p.label.weight":"Yarn weight","p.label.needle":"Needle size","p.label.gauge":"Gauge","p.label.length":"Finished length","p.label.construction":"Construction","p.label.yarn":"Yarn quantity","p.diff.label":"Difficulty","p.diff.text":"Intermediate","p.desc":"The Morrowfield is a relaxed, oversized sweater worked top-down in a seamless raglan. The body features a simple waffle texture that adds depth without demanding complex techniques. It is the kind of sweater you reach for every morning — warm, easy to wear, and satisfying to knit. Designed for sizes XS to 3XL with full graded instructions at every size.","p.notify":"Notify me when available","p.save":"Save to wishlist","p.note":"You will receive one email when this pattern launches. No spam.","p.need.title":"What you'll <em>need</em>","p.tech.title":"Techniques <em>used</em>","p.inc.title":"Pattern <em>includes</em>","p.con.label":"Top-down, seamless — no sewing required","p.con.title":"How it's<br><em>constructed</em>","p.size.title":"Sizing <em>guide</em>","p.size.note":"All measurements are finished garment measurements. For a relaxed fit, choose your size based on bust circumference and add 8–12 cm ease.","p.yarn.label":"Yarn","p.yarn.title":"What we <em>recommend</em>","p.more.title":"More from the <em>collection</em>","p.more.link":"View all patterns","p.yc1.type":"Best pick","p.yc1.name":"Merino Bulky","p.yc1.desc":"100% merino wool in bulky weight. Soft against the skin, holds the waffle texture beautifully, and comes in a wide range of natural tones.","p.yc2.type":"Budget option","p.yc2.name":"Superwash Blend","p.yc2.desc":"A merino/acrylic blend in bulky weight. Machine washable, widely available, and more affordable. Good for a first knit.","p.yc3.type":"Luxury pick","p.yc3.name":"Cashmere Mix","p.yc3.desc":"A cashmere blend gives an exceptionally soft finish and beautiful drape. Best for experienced knitters as it requires more careful handling.","footer.tag":"Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.","footer.explore":"Explore","footer.all":"All Patterns","footer.sweaters":"Sweaters","footer.baby":"Baby & Kids","footer.studio":"Studio","footer.rights":"All rights reserved","footer.made":"Made with patience ✦"},
+  es:{"nav.patterns":"Patrones","nav.about":"Acerca de","nav.contact":"Contacto","bc.home":"Inicio","tag.soon":"Próximamente","tag.featured":"Destacado","tag.baby":"Bebé","meta.adult":"Adulto","meta.intermediate":"Intermedio","meta.beginner":"Principiante","meta.easy":"Fácil","meta.bulky":"Grosor grueso","p.eyebrow":"Patrón adulto","p.subtitle":"Un jersey acogedor con textura en punto raglan desde arriba","p.label.weight":"Grosor del hilo","p.label.needle":"Tamaño de aguja","p.label.gauge":"Muestra","p.label.length":"Longitud final","p.label.construction":"Construcción","p.label.yarn":"Cantidad de hilo","p.diff.label":"Dificultad","p.diff.text":"Intermedio","p.desc":"The Morrowfield es un jersey holgado y oversized trabajado de arriba a abajo en raglan sin costuras. El cuerpo presenta una textura simple de gofre que añade profundidad sin técnicas complejas. Es el jersey que cogerás cada mañana — cálido, fácil de usar y satisfactorio de tejer. Diseñado para tallas XS a 3XL con instrucciones graduadas completas en cada talla.","p.notify":"Notificarme cuando esté disponible","p.save":"Guardar en lista de deseos","p.note":"Recibirás un email cuando este patrón se lance. Sin spam.","p.need.title":"Lo que <em>necesitarás</em>","p.tech.title":"Técnicas <em>utilizadas</em>","p.inc.title":"El patrón <em>incluye</em>","p.con.label":"De arriba a abajo, sin costuras — sin cosido necesario","p.con.title":"Cómo se <em>construye</em>","p.size.title":"Guía de <em>tallas</em>","p.size.note":"Todas las medidas son medidas de la prenda acabada. Para un ajuste relajado, elige tu talla según el contorno de pecho y añade 8–12 cm de holgura.","p.yarn.label":"Hilo","p.yarn.title":"Lo que <em>recomendamos</em>","p.more.title":"Más de la <em>colección</em>","p.more.link":"Ver todos los patrones","p.yc1.type":"Mejor opción","p.yc1.name":"Merino Grueso","p.yc1.desc":"100% lana merino en grosor grueso. Suave contra la piel, mantiene la textura de gofre perfectamente y viene en una amplia gama de tonos naturales.","p.yc2.type":"Opción económica","p.yc2.name":"Mezcla Superwash","p.yc2.desc":"Una mezcla de merino/acrílico en grosor grueso. Lavable a máquina, ampliamente disponible y más asequible. Ideal para primer proyecto.","p.yc3.type":"Opción de lujo","p.yc3.name":"Mezcla Cachemira","p.yc3.desc":"Una mezcla de cachemira ofrece un acabado excepcionalmente suave y una caída hermosa. Mejor para tejedoras experimentadas.","footer.tag":"Patrones elaborados con paciencia para jerseys acogedores y tejidos para bebés.","footer.explore":"Explorar","footer.all":"Todos los patrones","footer.sweaters":"Jerseys","footer.baby":"Bebé y niños","footer.studio":"Estudio","footer.rights":"Todos los derechos reservados","footer.made":"Hecho con paciencia ✦"},
+  fr:{"nav.patterns":"Patrons","nav.about":"À propos","nav.contact":"Contact","bc.home":"Accueil","tag.soon":"Bientôt disponible","tag.featured":"En vedette","tag.baby":"Bébé","meta.adult":"Adulte","meta.intermediate":"Intermédiaire","meta.beginner":"Débutant","meta.easy":"Facile","meta.bulky":"Grosse laine","p.eyebrow":"Patron adulte","p.subtitle":"Un pull douillet et texturé tricoté de haut en bas en raglan","p.label.weight":"Poids du fil","p.label.needle":"Taille des aiguilles","p.label.gauge":"Échantillon","p.label.length":"Longueur finale","p.label.construction":"Construction","p.label.yarn":"Quantité de fil","p.diff.label":"Difficulté","p.diff.text":"Intermédiaire","p.desc":"The Morrowfield est un pull ample et oversize tricoté de haut en bas en raglan sans coutures. Le corps présente un point gaufre simple qui ajoute de la profondeur sans techniques complexes. C'est le pull que vous attrapez chaque matin — chaud, facile à porter et satisfaisant à tricoter.","p.notify":"Me notifier quand disponible","p.save":"Enregistrer dans la liste de souhaits","p.note":"Vous recevrez un email au lancement de ce patron. Pas de spam.","p.need.title":"Ce dont vous aurez <em>besoin</em>","p.tech.title":"Techniques <em>utilisées</em>","p.inc.title":"Le patron <em>comprend</em>","p.con.label":"De haut en bas, sans coutures","p.con.title":"Comment c'est <em>construit</em>","p.size.title":"Guide des <em>tailles</em>","p.size.note":"Toutes les mesures sont des mesures de vêtement fini. Pour un ajustement détendu, choisissez votre taille selon le tour de poitrine et ajoutez 8–12 cm d'aisance.","p.yarn.label":"Fil","p.yarn.title":"Ce que nous <em>recommandons</em>","p.more.title":"Plus de la <em>collection</em>","p.more.link":"Voir tous les patrons","p.yc1.type":"Meilleur choix","p.yc1.name":"Mérinos Grosse laine","p.yc1.desc":"100% laine mérinos en grosse laine. Douce contre la peau, tient parfaitement le point gaufre et disponible dans une large gamme de tons naturels.","p.yc2.type":"Option économique","p.yc2.name":"Mélange Superwash","p.yc2.desc":"Un mélange mérinos/acrylique en grosse laine. Lavable en machine, largement disponible et plus abordable.","p.yc3.type":"Choix luxe","p.yc3.name":"Mélange Cachemire","p.yc3.desc":"Un mélange cachemire offre une finition exceptionnellement douce et un beau tombé. Recommandé pour les tricoteuses expérimentées.","footer.tag":"Patrons élaborés avec patience pour des pulls et des tricots pour bébés.","footer.explore":"Explorer","footer.all":"Tous les patrons","footer.sweaters":"Pulls","footer.baby":"Bébé et enfants","footer.studio":"Studio","footer.rights":"Tous droits réservés","footer.made":"Fait avec patience ✦"},
+  pt:{"nav.patterns":"Padrões","nav.about":"Sobre","nav.contact":"Contacto","bc.home":"Início","tag.soon":"Em breve","tag.featured":"Destaque","tag.baby":"Bebé","meta.adult":"Adulto","meta.intermediate":"Intermédio","meta.beginner":"Iniciante","meta.easy":"Fácil","meta.bulky":"Fio grosso","p.eyebrow":"Padrão adulto","p.subtitle":"Uma camisola aconchegante com textura tricotada de cima para baixo em raglan","p.label.weight":"Espessura do fio","p.label.needle":"Tamanho das agulhas","p.label.gauge":"Tensão","p.label.length":"Comprimento final","p.label.construction":"Construção","p.label.yarn":"Quantidade de fio","p.diff.label":"Dificuldade","p.diff.text":"Intermédio","p.desc":"The Morrowfield é uma camisola folgada e oversized tricotada de cima para baixo em raglan sem costuras. O corpo apresenta uma textura simples de waffle que acrescenta profundidade sem técnicas complexas. É a camisola que vais querer usar todas as manhãs — quente, fácil de usar e satisfatória de tricotar.","p.notify":"Notificar-me quando disponível","p.save":"Guardar na lista de desejos","p.note":"Receberás um email quando este padrão for lançado. Sem spam.","p.need.title":"O que vais <em>precisar</em>","p.tech.title":"Técnicas <em>utilizadas</em>","p.inc.title":"O padrão <em>inclui</em>","p.con.label":"De cima para baixo, sem costuras","p.con.title":"Como é <em>construído</em>","p.size.title":"Guia de <em>tamanhos</em>","p.size.note":"Todas as medidas são medidas da peça acabada. Para um ajuste folgado, escolhe o teu tamanho com base no contorno do busto e adiciona 8–12 cm de folga.","p.yarn.label":"Fio","p.yarn.title":"O que <em>recomendamos</em>","p.more.title":"Mais da <em>coleção</em>","p.more.link":"Ver todos os padrões","p.yc1.type":"Melhor escolha","p.yc1.name":"Merino Grosso","p.yc1.desc":"100% lã merino em espessura grossa. Suave contra a pele, mantém a textura waffle lindamente e vem numa ampla gama de tons naturais.","p.yc2.type":"Opção económica","p.yc2.name":"Mistura Superwash","p.yc2.desc":"Uma mistura de merino/acrílico em espessura grossa. Lavável à máquina, amplamente disponível e mais acessível.","p.yc3.type":"Escolha luxo","p.yc3.name":"Mistura Caxemira","p.yc3.desc":"Uma mistura de caxemira oferece um acabamento excecionalmente suave e uma queda bonita. Recomendado para tricotadoras experientes.","footer.tag":"Padrões elaborados com paciência para camisolas aconchegantes e tricots para bebés.","footer.explore":"Explorar","footer.all":"Todos os padrões","footer.sweaters":"Camisolas","footer.baby":"Bebé e crianças","footer.studio":"Estúdio","footer.rights":"Todos os direitos reservados","footer.made":"Feito com paciência ✦"}
+};
+let currentLang=localStorage.getItem('shk-lang')||'en';
+function applyLang(lang){currentLang=lang;localStorage.setItem('shk-lang',lang);const t=i18n[lang];document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k])el.textContent=t[k];});document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.getAttribute('data-i18n-html');if(t[k])el.innerHTML=t[k];});document.getElementById('langBtn').textContent=lang.toUpperCase()+' ▾';document.querySelectorAll('.lang-option').forEach(btn=>{btn.classList.toggle('active',btn.textContent.trim().toLowerCase()===lang);});['EN','ES','FR','PT'].forEach(code=>{const btn=document.getElementById('ml'+code);if(btn)btn.classList.toggle('active',code.toLowerCase()===lang);});document.documentElement.lang=lang;}
+function setLang(lang){applyLang(lang);closeLang();}
+function toggleLang(){document.getElementById('langDropdown').classList.toggle('open');}
+function closeLang(){document.getElementById('langDropdown').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.lang-switcher'))closeLang();});
+function toggleMenu(){const m=document.getElementById('mobileMenu');const btn=document.getElementById('hamburgerBtn');m.classList.toggle('open');const isOpen=m.classList.contains('open');document.body.style.overflow=isOpen?'hidden':'';if(btn){if(isOpen){btn.innerHTML='<span style="transform:rotate(45deg) translate(4px,4px)"></span><span style="opacity:0;width:22px"></span><span style="transform:rotate(-45deg) translate(4px,-4px)"></span>';}else{btn.innerHTML='<span></span><span></span><span></span>';}}}
 function drawKnit(canvas,opts){if(!canvas)return;const{bg,yarn,hi,sh,sw=20,sh2=15}=opts;const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);const cols=Math.ceil(W/sw)+2,rows=Math.ceil(H/sh2)+2;for(let r=-1;r<rows;r++){for(let c=-1;c<cols;c++){const odd=r%2===0;const x=c*sw+(odd?0:sw*.5),y=r*sh2;const cx2=x+sw*.5,cy2=y+sh2*.5,rw=sw*.44,rh=sh2*.38;ctx.beginPath();ctx.ellipse(cx2-sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=sh;ctx.lineWidth=1.8;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2+sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=yarn;ctx.lineWidth=2.1;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2,cy2-rh*.3,rw*.55,rh*.35,0,Math.PI,0);ctx.strokeStyle=hi;ctx.lineWidth=1.1;ctx.globalAlpha=.52;ctx.stroke();ctx.globalAlpha=1;}}}
 function init(id,opts,aspect=1.1){const el=document.getElementById(id);if(!el)return;const pr=window.devicePixelRatio||1;const r=el.parentElement.getBoundingClientRect();el.width=Math.round(r.width*pr)||500;el.height=Math.round(el.width*aspect);el.style.width='100%';el.style.display='block';drawKnit(el,opts);}
-window.addEventListener('load',()=>{init('mainC',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:22,sh2:17},1.2);init('mc1',{bg:'#ddd4c8',yarn:'#b8a898',hi:'#ccc0b0',sh:'#988878',sw:18,sh2:13},0.75);init('mc2',{bg:'#d8e0d4',yarn:'#a8b8a0',hi:'#b8c8b0',sh:'#889880',sw:18,sh2:13},0.75);init('mc3',{bg:'#dcd4dc',yarn:'#b8a8c0',hi:'#ccbcd0',sh:'#988898',sw:18,sh2:13},0.75);});
+window.addEventListener('load',()=>{init('mainC',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:22,sh2:17},1.2);init('mc1',{bg:'#ddd4c8',yarn:'#b8a898',hi:'#ccc0b0',sh:'#988878',sw:18,sh2:13},0.75);init('mc2',{bg:'#d8e0d4',yarn:'#a8b8a0',hi:'#b8c8b0',sh:'#889880',sw:18,sh2:13},0.75);init('mc3',{bg:'#dcd4dc',yarn:'#b8a8c0',hi:'#ccbcd0',sh:'#988898',sw:18,sh2:13},0.75);applyLang(currentLang);});
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.06});
 document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
 </script>
