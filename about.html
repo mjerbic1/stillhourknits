@@ -16,13 +16,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content
 .nav-links{display:flex;gap:28px;list-style:none}
 .nav-links a{font-size:9px;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s}
 .nav-links a:hover,.nav-links a.active{color:var(--rose)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang-switcher{position:relative}
+.lang-btn{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;display:flex;align-items:center;gap:5px;transition:all .3s}
+.lang-btn:hover{border-color:var(--rose);color:var(--rose)}
+.lang-btn::after{content:'▾';font-size:7px}
+.lang-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--ivory);border:1px solid var(--faint);min-width:72px;z-index:200;box-shadow:0 8px 24px rgba(58,36,40,.08)}
+.lang-dropdown.open{display:block}
+.lang-option{display:block;width:100%;background:none;border:none;font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:8px 12px;text-align:left;transition:all .3s}
+.lang-option:hover,.lang-option.active{color:var(--rose);background:var(--linen)}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
-.hamburger span{width:22px;height:1px;background:var(--ink);display:block}
-.mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:36px}
+.hamburger span{width:22px;height:1px;background:var(--ink);display:block;transition:all .3s ease;transform-origin:center}
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--ivory);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:32px}
 .mobile-menu.open{display:flex}
 .mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--ink);text-decoration:none}
 .mobile-menu a:hover{color:var(--rose)}
-.mobile-close{position:absolute;top:24px;right:28px;font-size:26px;background:none;border:none;cursor:pointer;color:var(--ink)}
+.mobile-lang{display:flex;gap:8px;margin-top:8px;padding-top:24px;border-top:1px solid var(--faint)}
+.mobile-lang button{background:none;border:1px solid var(--faint);font-family:'Jost',sans-serif;font-size:9px;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:5px 10px;transition:all .3s}
+.mobile-lang button.active,.mobile-lang button:hover{color:var(--rose);border-color:var(--rose)}
 .about-hero{min-height:70vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
 .ah-left{display:flex;flex-direction:column;justify-content:flex-end;padding:130px 48px 72px 56px;position:relative;z-index:2}
 .eyebrow{font-size:9px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--rose);margin-bottom:18px;display:flex;align-items:center;gap:12px}
@@ -107,7 +118,6 @@ footer{background:var(--ink);padding:52px 56px 32px}
 .ft-copy em{font-style:italic;font-family:'Cormorant Garamond',serif}
 .fu{opacity:0;transform:translateY(20px);transition:opacity .85s ease,transform .85s ease}
 .fu.vis{opacity:1;transform:none}
-
 @media(max-width:768px){
   nav{padding:18px 24px}
   .nav-links{display:none}
@@ -157,101 +167,312 @@ footer{background:var(--ink);padding:52px 56px 32px}
 <nav>
   <a class="logo" href="index.html">Still <em>Hour</em> Knits</a>
   <ul class="nav-links">
-    <li><a href="index.html">Patterns</a></li>
-    <li><a href="about.html" class="active">About</a></li>
-    <li><a href="index.html">Journal</a></li>
-    <li><a href="index.html">Contact</a></li>
+    <li><a href="index.html" data-i18n="nav.patterns">Patterns</a></li>
+    <li><a href="about.html" class="active" data-i18n="nav.about">About</a></li>
+    <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
   </ul>
-  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-option active" onclick="setLang('en')">EN</button>
+        <button class="lang-option" onclick="setLang('es')">ES</button>
+        <button class="lang-option" onclick="setLang('fr')">FR</button>
+        <button class="lang-option" onclick="setLang('pt')">PT</button>
+      </div>
+    </div>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" onclick="toggleMenu()">✕</button>
-  <a href="index.html" onclick="toggleMenu()">Patterns</a>
-  <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="index.html" onclick="toggleMenu()">Journal</a>
-  <a href="index.html" onclick="toggleMenu()">Contact</a>
+  <a href="index.html" onclick="toggleMenu()" data-i18n="nav.patterns">Patterns</a>
+  <a href="about.html" onclick="toggleMenu()" data-i18n="nav.about">About</a>
+  <a href="contact.html" onclick="toggleMenu()" data-i18n="nav.contact">Contact</a>
+  <div class="mobile-lang">
+    <button onclick="setLang('en');toggleMenu()" id="mlEN" class="active">EN</button>
+    <button onclick="setLang('es');toggleMenu()" id="mlES">ES</button>
+    <button onclick="setLang('fr');toggleMenu()" id="mlFR">FR</button>
+    <button onclick="setLang('pt');toggleMenu()" id="mlPT">PT</button>
+  </div>
 </div>
 <section class="about-hero">
   <div class="ah-left">
-    <div class="eyebrow">The maker</div>
-    <h1>Hi, I'm<br><em>Marija.</em></h1>
-    <p class="ah-lead">I started knitting in 2025. What began as a way to survive a hard season at work became something I did not expect — a practice that changed how I see patience, creativity, and what it means to make something real.</p>
+    <div class="eyebrow" data-i18n="hero.eyebrow">The maker</div>
+    <h1 data-i18n-html="hero.title">Hi, I'm<br><em>Marija.</em></h1>
+    <p class="ah-lead" data-i18n="hero.lead">I started knitting in 2025. What began as a way to survive a hard season at work became something I did not expect — a practice that changed how I see patience, creativity, and what it means to make something real.</p>
   </div>
   <div class="ah-right"><canvas id="heroC"></canvas><div class="ah-right-fade"></div></div>
 </section>
 <div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
 <section class="origin fu">
   <div class="origin-left">
-    <div class="origin-label">How it started</div>
-    <h2>A need to make<br><em>something real</em></h2>
-    <p>I have spent years in a role where the work is intangible. At the end of each day, there is no object in my hands. No proof of what I built. For a long time, that felt fine. Then it did not.</p>
-    <p>At the start of 2025, after a difficult stretch at work, I picked up a pair of needles. I had always admired people who made things by hand. I wanted to be one of them.</p>
-    <p>What I did not expect was how much knitting would give back. The focus it required. The quiet it created. The way a finished piece felt different from anything a screen had ever produced.</p>
-    <p>It also woke something up. As a child, I was drawn to patterns and design. That interest got buried somewhere along the way. Knitting brought it back.</p>
+    <div class="origin-label" data-i18n="origin.label">How it started</div>
+    <h2 data-i18n-html="origin.title">A need to make<br><em>something real</em></h2>
+    <p data-i18n="origin.p1">I have spent years in a role where the work is intangible. At the end of each day, there is no object in my hands. No proof of what I built. For a long time, that felt fine. Then it did not.</p>
+    <p data-i18n="origin.p2">At the start of 2025, after a difficult stretch at work, I picked up a pair of needles. I had always admired people who made things by hand. I wanted to be one of them.</p>
+    <p data-i18n="origin.p3">What I did not expect was how much knitting would give back. The focus it required. The quiet it created. The way a finished piece felt different from anything a screen had ever produced.</p>
+    <p data-i18n="origin.p4">It also woke something up. As a child, I was drawn to patterns and design. That interest got buried somewhere along the way. Knitting brought it back.</p>
   </div>
   <div class="origin-right">
-    <div class="pull-quote">"I am not described as a patient person. Knitting taught me I was wrong about that."</div>
+    <div class="pull-quote" data-i18n="origin.quote">"I am not described as a patient person. Knitting taught me I was wrong about that."</div>
     <div class="pull-attr">— Marija Jerbić, Still Hour Knits</div>
     <div class="origin-canvas-wrap"><canvas id="originC"></canvas></div>
   </div>
 </section>
 <div class="divider"><div class="dl"></div><span class="ds">✦</span><div class="dl"></div></div>
 <section class="compare fu">
-  <div class="compare-label">Two worlds</div>
-  <h2 class="compare-title">Product Manager<br><em>meets maker</em></h2>
+  <div class="compare-label" data-i18n="compare.label">Two worlds</div>
+  <h2 class="compare-title" data-i18n-html="compare.title">Product Manager<br><em>meets maker</em></h2>
   <div class="compare-grid">
-    <div class="col"><span class="col-tag">Working in IT</span><div class="col-title">The intangible world</div><ul><li>You build things you cannot hold.</li><li>Progress is measured in metrics, not objects.</li><li>The work is never truly finished.</li><li>Speed is the standard. Patience is a bottleneck.</li><li>Your hands are always on a keyboard, never on the thing itself.</li><li>At the end of the day, you close the laptop. Nothing remains.</li></ul></div>
-    <div class="col"><span class="col-tag">Knitting</span><div class="col-title">The tangible world</div><ul><li>You build something you can touch, wear, and give away.</li><li>Progress is visible. Every row is proof.</li><li>There is a moment when it is done. Completely done.</li><li>Patience is not a weakness. It is the whole point.</li><li>Your hands are the tool. They remember every stitch.</li><li>At the end of the day, you hold something that did not exist that morning.</li></ul></div>
+    <div class="col">
+      <span class="col-tag" data-i18n="compare.col1tag">Working in IT</span>
+      <div class="col-title" data-i18n="compare.col1title">The intangible world</div>
+      <ul id="col1list">
+        <li data-i18n="compare.col1.1">You build things you cannot hold.</li>
+        <li data-i18n="compare.col1.2">Progress is measured in metrics, not objects.</li>
+        <li data-i18n="compare.col1.3">The work is never truly finished.</li>
+        <li data-i18n="compare.col1.4">Speed is the standard. Patience is a bottleneck.</li>
+        <li data-i18n="compare.col1.5">Your hands are always on a keyboard, never on the thing itself.</li>
+        <li data-i18n="compare.col1.6">At the end of the day, you close the laptop. Nothing remains.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <span class="col-tag" data-i18n="compare.col2tag">Knitting</span>
+      <div class="col-title" data-i18n="compare.col2title">The tangible world</div>
+      <ul>
+        <li data-i18n="compare.col2.1">You build something you can touch, wear, and give away.</li>
+        <li data-i18n="compare.col2.2">Progress is visible. Every row is proof.</li>
+        <li data-i18n="compare.col2.3">There is a moment when it is done. Completely done.</li>
+        <li data-i18n="compare.col2.4">Patience is not a weakness. It is the whole point.</li>
+        <li data-i18n="compare.col2.5">Your hands are the tool. They remember every stitch.</li>
+        <li data-i18n="compare.col2.6">At the end of the day, you hold something that did not exist that morning.</li>
+      </ul>
+    </div>
   </div>
   <div class="compare-bottom">
-    <div class="compare-bottom-quote">"In IT, I manage work. In knitting, I <em>do</em> the work. There is a difference."</div>
-    <p class="compare-bottom-text">Both worlds require attention to detail, problem solving, and the ability to follow a complex system. But only one of them ends with something warm in your hands.</p>
+    <div class="compare-bottom-quote" data-i18n-html="compare.bottomquote">"In IT, I manage work. In knitting, I <em>do</em> the work. There is a difference."</div>
+    <p class="compare-bottom-text" data-i18n="compare.bottomtext">Both worlds require attention to detail, problem solving, and the ability to follow a complex system. But only one of them ends with something warm in your hands.</p>
   </div>
 </section>
 <section class="chaos fu">
   <div class="chaos-num">02</div>
   <div class="chaos-body">
-    <div class="chaos-label">The creative process</div>
-    <h2>Ideas arrive<br><em>everywhere</em></h2>
-    <p>I do not have a defined style yet. Right now I call it creative chaos. Inspiration comes from everyday objects, colours I notice on a walk, a texture on a wall, a shape in a window.</p>
-    <p>But the clearest ideas come when I am holding the needles. Something about the rhythm of knitting unlocks a different kind of thinking. A technique clicks. A form becomes obvious. A pattern writes itself.</p>
-    <p>I do not force it. I follow it. That is the only rule I have so far.</p>
-    <div class="chaos-tags"><span class="tag">Everyday objects</span><span class="tag">Texture & form</span><span class="tag">Colour & light</span><span class="tag">Creative chaos</span><span class="tag">Cozy textures</span><span class="tag">Still moments</span></div>
+    <div class="chaos-label" data-i18n="chaos.label">The creative process</div>
+    <h2 data-i18n-html="chaos.title">Ideas arrive<br><em>everywhere</em></h2>
+    <p data-i18n="chaos.p1">I do not have a defined style yet. Right now I call it creative chaos. Inspiration comes from everyday objects, colours I notice on a walk, a texture on a wall, a shape in a window.</p>
+    <p data-i18n="chaos.p2">But the clearest ideas come when I am holding the needles. Something about the rhythm of knitting unlocks a different kind of thinking. A technique clicks. A form becomes obvious. A pattern writes itself.</p>
+    <p data-i18n="chaos.p3">I do not force it. I follow it. That is the only rule I have so far.</p>
+    <div class="chaos-tags">
+      <span class="tag" data-i18n="chaos.tag1">Everyday objects</span>
+      <span class="tag" data-i18n="chaos.tag2">Texture & form</span>
+      <span class="tag" data-i18n="chaos.tag3">Colour & light</span>
+      <span class="tag" data-i18n="chaos.tag4">Creative chaos</span>
+      <span class="tag" data-i18n="chaos.tag5">Cozy textures</span>
+      <span class="tag" data-i18n="chaos.tag6">Still moments</span>
+    </div>
   </div>
 </section>
 <div class="values-row">
-  <div class="vr fu"><span class="vr-num">i.</span><div class="vr-title">Patience</div><p class="vr-desc">Not a virtue I was born with. One I found through knitting. It shows up in every pattern I design.</p></div>
-  <div class="vr fu"><span class="vr-num">ii.</span><div class="vr-title">Honesty</div><p class="vr-desc">I am new to this. I will not pretend otherwise. What I bring is curiosity, precision, and a genuine love for the craft.</p></div>
-  <div class="vr fu"><span class="vr-num">iii.</span><div class="vr-title">Making</div><p class="vr-desc">There is something powerful about holding a finished object you built with your own hands. That feeling is what Still Hour Knits is built around.</p></div>
+  <div class="vr fu"><span class="vr-num">i.</span><div class="vr-title" data-i18n="val1.title">Patience</div><p class="vr-desc" data-i18n="val1.desc">Not a virtue I was born with. One I found through knitting. It shows up in every pattern I design.</p></div>
+  <div class="vr fu"><span class="vr-num">ii.</span><div class="vr-title" data-i18n="val2.title">Honesty</div><p class="vr-desc" data-i18n="val2.desc">I am new to this. I will not pretend otherwise. What I bring is curiosity, precision, and a genuine love for the craft.</p></div>
+  <div class="vr fu"><span class="vr-num">iii.</span><div class="vr-title" data-i18n="val3.title">Making</div><p class="vr-desc" data-i18n="val3.desc">There is something powerful about holding a finished object you built with your own hands. That feeling is what Still Hour Knits is built around.</p></div>
 </div>
 <section class="about-cta">
   <div class="fu">
-    <h2>Ready to find<br>your <em>still hour?</em></h2>
-    <p>Every pattern in the collection is designed with the same intention — to give you a quiet, focused hour that produces something beautiful at the end of it.</p>
-    <a class="btn-line" href="pattern.html">Browse the patterns</a>
+    <h2 data-i18n-html="cta.title">Ready to find<br>your <em>still hour?</em></h2>
+    <p data-i18n="cta.desc">Every pattern in the collection is designed with the same intention — to give you a quiet, focused hour that produces something beautiful at the end of it.</p>
+    <a class="btn-line" href="pattern.html" data-i18n="cta.btn">Browse the patterns</a>
   </div>
   <div class="cta-right fu">
-    <div class="cta-card"><div class="cta-card-label">Based in</div><div class="cta-card-text">Croatia</div></div>
-    <div class="cta-card"><div class="cta-card-label">Knitting since</div><div class="cta-card-text">January 2025</div></div>
-    <div class="cta-card"><div class="cta-card-label">Speciality</div><div class="cta-card-text">Cozy sweaters & baby knits</div></div>
-    <div class="cta-card"><div class="cta-card-label">Current style</div><div class="cta-card-text">Creative chaos</div></div>
+    <div class="cta-card"><div class="cta-card-label" data-i18n="card1.label">Based in</div><div class="cta-card-text" data-i18n="card1.val">Croatia</div></div>
+    <div class="cta-card"><div class="cta-card-label" data-i18n="card2.label">Knitting since</div><div class="cta-card-text">January 2025</div></div>
+    <div class="cta-card"><div class="cta-card-label" data-i18n="card3.label">Speciality</div><div class="cta-card-text" data-i18n="card3.val">Cozy sweaters & baby knits</div></div>
+    <div class="cta-card"><div class="cta-card-label" data-i18n="card4.label">Current style</div><div class="cta-card-text" data-i18n="card4.val">Creative chaos</div></div>
   </div>
 </section>
 <footer>
   <div class="ft">
-    <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p></div>
-    <div class="ft-col"><h4>Explore</h4><ul><li><a href="pattern.html">All Patterns</a></li><li><a href="pattern.html">Sweaters</a></li><li><a href="pattern.html">Baby & Kids</a></li></ul></div>
-    <div class="ft-col"><h4>Studio</h4><ul><li><a href="about.html">About</a></li><li><a href="index.html">Journal</a></li><li><a href="index.html">Contact</a></li></ul></div>
+    <div><div class="ft-brand">Still <em>Hour</em> Knits</div><p class="ft-tag" data-i18n="footer.tag">Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.</p></div>
+    <div class="ft-col"><h4 data-i18n="footer.explore">Explore</h4><ul><li><a href="pattern.html" data-i18n="footer.all">All Patterns</a></li><li><a href="pattern.html" data-i18n="footer.sweaters">Sweaters</a></li><li><a href="pattern.html" data-i18n="footer.baby">Baby & Kids</a></li></ul></div>
+    <div class="ft-col"><h4 data-i18n="footer.studio">Studio</h4><ul><li><a href="about.html" data-i18n="nav.about">About</a></li><li><a href="contact.html" data-i18n="nav.contact">Contact</a></li><li><a href="https://www.ravelry.com/designers/StillHourKnits" target="_blank">Ravelry</a></li><li><a href="mailto:info@stillhourknits.com">info@stillhourknits.com</a></li></ul></div>
   </div>
-  <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — All rights reserved</span><span class="ft-copy">Made with patience ✦</span></div>
+  <div class="ft-btm"><span class="ft-copy">© 2025 <em>Still Hour Knits</em> — <span data-i18n="footer.rights">All rights reserved</span></span><span class="ft-copy" data-i18n="footer.made">Made with patience ✦</span></div>
 </footer>
 <script>
-function toggleMenu(){const m=document.getElementById('mobileMenu');m.classList.toggle('open');document.body.style.overflow=m.classList.contains('open')?'hidden':'';}
+const i18n = {
+  en:{
+    "nav.patterns":"Patterns","nav.about":"About","nav.contact":"Contact",
+    "hero.eyebrow":"The maker","hero.title":"Hi, I'm<br><em>Marija.</em>",
+    "hero.lead":"I started knitting in 2025. What began as a way to survive a hard season at work became something I did not expect — a practice that changed how I see patience, creativity, and what it means to make something real.",
+    "origin.label":"How it started","origin.title":"A need to make<br><em>something real</em>",
+    "origin.p1":"I have spent years in a role where the work is intangible. At the end of each day, there is no object in my hands. No proof of what I built. For a long time, that felt fine. Then it did not.",
+    "origin.p2":"At the start of 2025, after a difficult stretch at work, I picked up a pair of needles. I had always admired people who made things by hand. I wanted to be one of them.",
+    "origin.p3":"What I did not expect was how much knitting would give back. The focus it required. The quiet it created. The way a finished piece felt different from anything a screen had ever produced.",
+    "origin.p4":"It also woke something up. As a child, I was drawn to patterns and design. That interest got buried somewhere along the way. Knitting brought it back.",
+    "origin.quote":'"I am not described as a patient person. Knitting taught me I was wrong about that."',
+    "compare.label":"Two worlds","compare.title":"Product Manager<br><em>meets maker</em>",
+    "compare.col1tag":"Working in IT","compare.col1title":"The intangible world",
+    "compare.col1.1":"You build things you cannot hold.","compare.col1.2":"Progress is measured in metrics, not objects.",
+    "compare.col1.3":"The work is never truly finished.","compare.col1.4":"Speed is the standard. Patience is a bottleneck.",
+    "compare.col1.5":"Your hands are always on a keyboard, never on the thing itself.",
+    "compare.col1.6":"At the end of the day, you close the laptop. Nothing remains.",
+    "compare.col2tag":"Knitting","compare.col2title":"The tangible world",
+    "compare.col2.1":"You build something you can touch, wear, and give away.","compare.col2.2":"Progress is visible. Every row is proof.",
+    "compare.col2.3":"There is a moment when it is done. Completely done.","compare.col2.4":"Patience is not a weakness. It is the whole point.",
+    "compare.col2.5":"Your hands are the tool. They remember every stitch.",
+    "compare.col2.6":"At the end of the day, you hold something that did not exist that morning.",
+    "compare.bottomquote":'"In IT, I manage work. In knitting, I <em>do</em> the work. There is a difference."',
+    "compare.bottomtext":"Both worlds require attention to detail, problem solving, and the ability to follow a complex system. But only one of them ends with something warm in your hands.",
+    "chaos.label":"The creative process","chaos.title":"Ideas arrive<br><em>everywhere</em>",
+    "chaos.p1":"I do not have a defined style yet. Right now I call it creative chaos. Inspiration comes from everyday objects, colours I notice on a walk, a texture on a wall, a shape in a window.",
+    "chaos.p2":"But the clearest ideas come when I am holding the needles. Something about the rhythm of knitting unlocks a different kind of thinking. A technique clicks. A form becomes obvious. A pattern writes itself.",
+    "chaos.p3":"I do not force it. I follow it. That is the only rule I have so far.",
+    "chaos.tag1":"Everyday objects","chaos.tag2":"Texture & form","chaos.tag3":"Colour & light","chaos.tag4":"Creative chaos","chaos.tag5":"Cozy textures","chaos.tag6":"Still moments",
+    "val1.title":"Patience","val1.desc":"Not a virtue I was born with. One I found through knitting. It shows up in every pattern I design.",
+    "val2.title":"Honesty","val2.desc":"I am new to this. I will not pretend otherwise. What I bring is curiosity, precision, and a genuine love for the craft.",
+    "val3.title":"Making","val3.desc":"There is something powerful about holding a finished object you built with your own hands. That feeling is what Still Hour Knits is built around.",
+    "cta.title":"Ready to find<br>your <em>still hour?</em>","cta.desc":"Every pattern in the collection is designed with the same intention — to give you a quiet, focused hour that produces something beautiful at the end of it.","cta.btn":"Browse the patterns",
+    "card1.label":"Based in","card1.val":"Croatia","card2.label":"Knitting since","card3.label":"Speciality","card3.val":"Cozy sweaters & baby knits","card4.label":"Current style","card4.val":"Creative chaos",
+    "footer.tag":"Patterns crafted with patience for cozy sweaters and tiny knits — designed for the quiet, focused hours that only knitting can give.",
+    "footer.explore":"Explore","footer.all":"All Patterns","footer.sweaters":"Sweaters","footer.baby":"Baby & Kids","footer.studio":"Studio","footer.rights":"All rights reserved","footer.made":"Made with patience ✦"
+  },
+  es:{
+    "nav.patterns":"Patrones","nav.about":"Acerca de","nav.contact":"Contacto",
+    "hero.eyebrow":"La creadora","hero.title":"Hola, soy<br><em>Marija.</em>",
+    "hero.lead":"Empecé a tejer en 2025. Lo que comenzó como una forma de sobrevivir una temporada difícil en el trabajo se convirtió en algo que no esperaba — una práctica que cambió cómo veo la paciencia, la creatividad y lo que significa hacer algo real.",
+    "origin.label":"Cómo empezó","origin.title":"La necesidad de hacer<br><em>algo real</em>",
+    "origin.p1":"He pasado años en un rol donde el trabajo es intangible. Al final de cada día, no hay ningún objeto en mis manos. Ninguna prueba de lo que construí. Por mucho tiempo, eso estuvo bien. Luego dejó de estarlo.",
+    "origin.p2":"A principios de 2025, tras una temporada difícil en el trabajo, cogí un par de agujas. Siempre admiré a las personas que hacían cosas a mano. Quería ser una de ellas.",
+    "origin.p3":"Lo que no esperaba era cuánto me daría el tejido. El enfoque que requería. La calma que creaba. La sensación tan diferente de una pieza terminada comparada con cualquier cosa que una pantalla hubiera producido.",
+    "origin.p4":"También despertó algo. De niña, me atraían los patrones y el diseño. Ese interés quedó enterrado en algún momento. El tejido lo resucitó.",
+    "origin.quote":'"No me describen como una persona paciente. El tejido me enseñó que estaba equivocada."',
+    "compare.label":"Dos mundos","compare.title":"Product Manager<br><em>conoce a la artesana</em>",
+    "compare.col1tag":"Trabajando en IT","compare.col1title":"El mundo intangible",
+    "compare.col1.1":"Construyes cosas que no puedes sostener.","compare.col1.2":"El progreso se mide en métricas, no en objetos.",
+    "compare.col1.3":"El trabajo nunca está verdaderamente terminado.","compare.col1.4":"La velocidad es el estándar. La paciencia es un obstáculo.",
+    "compare.col1.5":"Tus manos siempre están en un teclado, nunca en la cosa misma.",
+    "compare.col1.6":"Al final del día, cierras el portátil. No queda nada.",
+    "compare.col2tag":"Tejido","compare.col2title":"El mundo tangible",
+    "compare.col2.1":"Construyes algo que puedes tocar, usar y regalar.","compare.col2.2":"El progreso es visible. Cada vuelta es una prueba.",
+    "compare.col2.3":"Llega un momento en que está hecho. Completamente hecho.","compare.col2.4":"La paciencia no es una debilidad. Es el punto central.",
+    "compare.col2.5":"Tus manos son la herramienta. Recuerdan cada punto.",
+    "compare.col2.6":"Al final del día, sostienes algo que no existía esa mañana.",
+    "compare.bottomquote":'"En IT, gestiono el trabajo. Al tejer, <em>hago</em> el trabajo. Hay una diferencia."',
+    "compare.bottomtext":"Ambos mundos requieren atención al detalle, resolución de problemas y la capacidad de seguir un sistema complejo. Pero solo uno termina con algo cálido en tus manos.",
+    "chaos.label":"El proceso creativo","chaos.title":"Las ideas llegan<br><em>en todas partes</em>",
+    "chaos.p1":"Todavía no tengo un estilo definido. Por ahora lo llamo caos creativo. La inspiración viene de objetos cotidianos, colores que noto en un paseo, una textura en una pared, una forma en una ventana.",
+    "chaos.p2":"Pero las ideas más claras llegan cuando sostengo las agujas. Algo en el ritmo del tejido desbloquea un tipo diferente de pensamiento. Una técnica encaja. Una forma se vuelve obvia. Un patrón se escribe solo.",
+    "chaos.p3":"No lo fuerzo. Lo sigo. Esa es la única regla que tengo hasta ahora.",
+    "chaos.tag1":"Objetos cotidianos","chaos.tag2":"Textura y forma","chaos.tag3":"Color y luz","chaos.tag4":"Caos creativo","chaos.tag5":"Texturas acogedoras","chaos.tag6":"Momentos tranquilos",
+    "val1.title":"Paciencia","val1.desc":"No es una virtud con la que nací. La encontré a través del tejido. Aparece en cada patrón que diseño.",
+    "val2.title":"Honestidad","val2.desc":"Soy nueva en esto. No voy a fingir lo contrario. Lo que aporto es curiosidad, precisión y un amor genuino por el oficio.",
+    "val3.title":"Crear","val3.desc":"Hay algo poderoso en sostener un objeto terminado que construiste con tus propias manos. Esa sensación es en la que se basa Still Hour Knits.",
+    "cta.title":"¿Lista para encontrar<br>tu <em>hora tranquila?</em>","cta.desc":"Cada patrón de la colección está diseñado con la misma intención — darte una hora tranquila y enfocada que produzca algo hermoso al final.","cta.btn":"Ver los patrones",
+    "card1.label":"Basada en","card1.val":"Croacia","card2.label":"Tejiendo desde","card3.label":"Especialidad","card3.val":"Jerseys y tejidos para bebé","card4.label":"Estilo actual","card4.val":"Caos creativo",
+    "footer.tag":"Patrones elaborados con paciencia para jerseys acogedores y tejidos para bebés — diseñados para esas horas tranquilas y enfocadas que solo el tejido puede dar.",
+    "footer.explore":"Explorar","footer.all":"Todos los patrones","footer.sweaters":"Jerseys","footer.baby":"Bebé y niños","footer.studio":"Estudio","footer.rights":"Todos los derechos reservados","footer.made":"Hecho con paciencia ✦"
+  },
+  fr:{
+    "nav.patterns":"Patrons","nav.about":"À propos","nav.contact":"Contact",
+    "hero.eyebrow":"La créatrice","hero.title":"Bonjour, je suis<br><em>Marija.</em>",
+    "hero.lead":"J'ai commencé à tricoter en 2025. Ce qui a débuté comme un moyen de survivre à une période difficile au travail est devenu quelque chose d'inattendu — une pratique qui a changé ma vision de la patience, de la créativité et de ce que signifie créer quelque chose de réel.",
+    "origin.label":"Comment tout a commencé","origin.title":"Le besoin de faire<br><em>quelque chose de réel</em>",
+    "origin.p1":"J'ai passé des années dans un rôle où le travail est intangible. À la fin de chaque journée, il n'y a aucun objet dans mes mains. Aucune preuve de ce que j'ai construit. Pendant longtemps, cela allait. Puis non.",
+    "origin.p2":"Début 2025, après une période difficile au travail, j'ai pris une paire d'aiguilles. J'ai toujours admiré les personnes qui fabriquaient des choses à la main. Je voulais en faire partie.",
+    "origin.p3":"Ce que je n'attendais pas, c'est tout ce que le tricot allait m'apporter. La concentration qu'il demandait. Le calme qu'il créait. La façon dont une pièce terminée ressentait différemment de tout ce qu'un écran avait jamais produit.",
+    "origin.p4":"Cela a aussi réveillé quelque chose. Enfant, j'étais attirée par les motifs et le design. Cet intérêt s'était enfoui quelque part en chemin. Le tricot l'a ramené.",
+    "origin.quote":'"On ne me décrit pas comme une personne patiente. Le tricot m\'a appris que j\'avais tort."',
+    "compare.label":"Deux mondes","compare.title":"Chef de produit<br><em>rencontre l'artisane</em>",
+    "compare.col1tag":"Dans l'IT","compare.col1title":"Le monde intangible",
+    "compare.col1.1":"Vous créez des choses que vous ne pouvez pas tenir.","compare.col1.2":"Le progrès se mesure en métriques, pas en objets.",
+    "compare.col1.3":"Le travail n'est jamais vraiment terminé.","compare.col1.4":"La vitesse est la norme. La patience est un obstacle.",
+    "compare.col1.5":"Vos mains sont toujours sur un clavier, jamais sur la chose elle-même.",
+    "compare.col1.6":"En fin de journée, vous fermez l'ordinateur. Il ne reste rien.",
+    "compare.col2tag":"Tricot","compare.col2title":"Le monde tangible",
+    "compare.col2.1":"Vous créez quelque chose que vous pouvez toucher, porter et offrir.","compare.col2.2":"Le progrès est visible. Chaque rang en est la preuve.",
+    "compare.col2.3":"Il y a un moment où c'est terminé. Complètement terminé.","compare.col2.4":"La patience n'est pas une faiblesse. C'est tout le propos.",
+    "compare.col2.5":"Vos mains sont l'outil. Elles se souviennent de chaque maille.",
+    "compare.col2.6":"En fin de journée, vous tenez quelque chose qui n'existait pas ce matin.",
+    "compare.bottomquote":'"Dans l\'IT, je gère le travail. En tricotant, je <em>fais</em> le travail. Il y a une différence."',
+    "compare.bottomtext":"Les deux mondes requièrent de l'attention aux détails, la résolution de problèmes et la capacité à suivre un système complexe. Mais un seul se termine avec quelque chose de chaud entre vos mains.",
+    "chaos.label":"Le processus créatif","chaos.title":"Les idées arrivent<br><em>partout</em>",
+    "chaos.p1":"Je n'ai pas encore de style défini. Pour l'instant, je l'appelle le chaos créatif. L'inspiration vient d'objets du quotidien, de couleurs aperçues lors d'une promenade, d'une texture sur un mur, d'une forme dans une fenêtre.",
+    "chaos.p2":"Mais les idées les plus claires viennent lorsque je tiens les aiguilles. Quelque chose dans le rythme du tricot débloque un autre type de réflexion. Une technique se met en place. Une forme devient évidente. Un motif s'écrit tout seul.",
+    "chaos.p3":"Je ne le force pas. Je le suis. C'est la seule règle que j'ai pour l'instant.",
+    "chaos.tag1":"Objets du quotidien","chaos.tag2":"Texture et forme","chaos.tag3":"Couleur et lumière","chaos.tag4":"Chaos créatif","chaos.tag5":"Textures douces","chaos.tag6":"Moments tranquilles",
+    "val1.title":"Patience","val1.desc":"Ce n'est pas une vertu avec laquelle je suis née. Je l'ai trouvée grâce au tricot. Elle se manifeste dans chaque patron que je conçois.",
+    "val2.title":"Honnêteté","val2.desc":"Je suis nouvelle dans cela. Je ne vais pas faire semblant du contraire. Ce que j'apporte, c'est de la curiosité, de la précision et un amour sincère pour l'artisanat.",
+    "val3.title":"Créer","val3.desc":"Il y a quelque chose de puissant à tenir un objet fini que vous avez construit de vos propres mains. Ce sentiment est ce sur quoi Still Hour Knits est fondé.",
+    "cta.title":"Prête à trouver<br>votre <em>heure tranquille ?</em>","cta.desc":"Chaque patron de la collection est conçu avec la même intention — vous offrir une heure calme et concentrée qui produit quelque chose de beau à la fin.","cta.btn":"Parcourir les patrons",
+    "card1.label":"Basée en","card1.val":"Croatie","card2.label":"Tricote depuis","card3.label":"Spécialité","card3.val":"Pulls et tricots pour bébés","card4.label":"Style actuel","card4.val":"Chaos créatif",
+    "footer.tag":"Patrons élaborés avec patience pour des pulls et des tricots pour bébés — conçus pour ces heures calmes et concentrées que seul le tricot peut donner.",
+    "footer.explore":"Explorer","footer.all":"Tous les patrons","footer.sweaters":"Pulls","footer.baby":"Bébé et enfants","footer.studio":"Studio","footer.rights":"Tous droits réservés","footer.made":"Fait avec patience ✦"
+  },
+  pt:{
+    "nav.patterns":"Padrões","nav.about":"Sobre","nav.contact":"Contacto",
+    "hero.eyebrow":"A criadora","hero.title":"Olá, sou a<br><em>Marija.</em>",
+    "hero.lead":"Comecei a tricotar em 2025. O que começou como uma forma de sobreviver a uma época difícil no trabalho tornou-se algo que não esperava — uma prática que mudou a forma como vejo a paciência, a criatividade e o que significa fazer algo real.",
+    "origin.label":"Como tudo começou","origin.title":"A necessidade de fazer<br><em>algo real</em>",
+    "origin.p1":"Passei anos num papel em que o trabalho é intangível. No final de cada dia, não há nenhum objeto nas minhas mãos. Nenhuma prova do que construí. Durante muito tempo, isso pareceu bem. Depois deixou de ser.",
+    "origin.p2":"No início de 2025, após uma fase difícil no trabalho, peguei num par de agulhas. Sempre admirei pessoas que faziam coisas à mão. Queria ser uma delas.",
+    "origin.p3":"O que não esperava era quanto o tricot me iria dar. O foco que exigia. A calma que criava. A sensação tão diferente de uma peça acabada comparada com qualquer coisa que um ecrã alguma vez tinha produzido.",
+    "origin.p4":"Também acordou algo. Em criança, sentia-me atraída por padrões e design. Esse interesse ficou enterrado algures pelo caminho. O tricot trouxe-o de volta.",
+    "origin.quote":'"Não me descrevem como uma pessoa paciente. O tricot ensinou-me que estava errada."',
+    "compare.label":"Dois mundos","compare.title":"Product Manager<br><em>conhece a artesã</em>",
+    "compare.col1tag":"Trabalhar em IT","compare.col1title":"O mundo intangível",
+    "compare.col1.1":"Crias coisas que não podes segurar.","compare.col1.2":"O progresso mede-se em métricas, não em objetos.",
+    "compare.col1.3":"O trabalho nunca está verdadeiramente terminado.","compare.col1.4":"A velocidade é o padrão. A paciência é um obstáculo.",
+    "compare.col1.5":"As tuas mãos estão sempre num teclado, nunca na coisa em si.",
+    "compare.col1.6":"No final do dia, fechas o computador. Não fica nada.",
+    "compare.col2tag":"Tricot","compare.col2title":"O mundo tangível",
+    "compare.col2.1":"Crias algo que podes tocar, usar e oferecer.","compare.col2.2":"O progresso é visível. Cada carreira é prova disso.",
+    "compare.col2.3":"Há um momento em que está feito. Completamente feito.","compare.col2.4":"A paciência não é uma fraqueza. É o ponto central.",
+    "compare.col2.5":"As tuas mãos são a ferramenta. Recordam cada ponto.",
+    "compare.col2.6":"No final do dia, tens algo nas mãos que não existia de manhã.",
+    "compare.bottomquote":'"Em IT, giro o trabalho. Ao tricotar, <em>faço</em> o trabalho. Há uma diferença."',
+    "compare.bottomtext":"Ambos os mundos exigem atenção ao detalhe, resolução de problemas e a capacidade de seguir um sistema complexo. Mas só um termina com algo quente nas tuas mãos.",
+    "chaos.label":"O processo criativo","chaos.title":"As ideias chegam<br><em>em todo o lado</em>",
+    "chaos.p1":"Ainda não tenho um estilo definido. Por agora chamo-lhe caos criativo. A inspiração vem de objetos do quotidiano, cores que noto numa caminhada, uma textura numa parede, uma forma numa janela.",
+    "chaos.p2":"Mas as ideias mais claras chegam quando estou a segurar as agulhas. Algo no ritmo do tricot desbloqueia um tipo diferente de pensamento. Uma técnica encaixa. Uma forma torna-se óbvia. Um padrão escreve-se sozinho.",
+    "chaos.p3":"Não forço. Sigo. Essa é a única regra que tenho até agora.",
+    "chaos.tag1":"Objetos do quotidiano","chaos.tag2":"Textura e forma","chaos.tag3":"Cor e luz","chaos.tag4":"Caos criativo","chaos.tag5":"Texturas aconchegantes","chaos.tag6":"Momentos tranquilos",
+    "val1.title":"Paciência","val1.desc":"Não é uma virtude com que nasci. Encontrei-a através do tricot. Aparece em cada padrão que desenho.",
+    "val2.title":"Honestidade","val2.desc":"Sou nova nisto. Não vou fingir o contrário. O que trago é curiosidade, precisão e um amor genuíno pelo ofício.",
+    "val3.title":"Criar","val3.desc":"Há algo poderoso em segurar um objeto acabado que construíste com as tuas próprias mãos. Essa sensação é a base da Still Hour Knits.",
+    "cta.title":"Pronta para encontrar<br>a tua <em>hora tranquila?</em>","cta.desc":"Cada padrão da coleção é desenhado com a mesma intenção — dar-te uma hora calma e focada que produz algo bonito no final.","cta.btn":"Ver os padrões",
+    "card1.label":"Baseada em","card1.val":"Croácia","card2.label":"Tricota desde","card3.label":"Especialidade","card3.val":"Camisolas e tricot para bebés","card4.label":"Estilo atual","card4.val":"Caos criativo",
+    "footer.tag":"Padrões elaborados com paciência para camisolas aconchegantes e tricots para bebés — concebidos para as horas tranquilas e focadas que só o tricot pode dar.",
+    "footer.explore":"Explorar","footer.all":"Todos os padrões","footer.sweaters":"Camisolas","footer.baby":"Bebé e crianças","footer.studio":"Estúdio","footer.rights":"Todos os direitos reservados","footer.made":"Feito com paciência ✦"
+  }
+};
+
+let currentLang = localStorage.getItem('shk-lang') || 'en';
+function applyLang(lang){
+  currentLang=lang; localStorage.setItem('shk-lang',lang);
+  const t=i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k])el.textContent=t[k];});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.getAttribute('data-i18n-html');if(t[k])el.innerHTML=t[k];});
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const k=el.getAttribute('data-i18n-placeholder');if(t[k])el.placeholder=t[k];});
+  document.getElementById('langBtn').textContent=lang.toUpperCase()+' ▾';
+  document.querySelectorAll('.lang-option').forEach(btn=>{btn.classList.toggle('active',btn.textContent.trim().toLowerCase()===lang);});
+  ['EN','ES','FR','PT'].forEach(code=>{const btn=document.getElementById('ml'+code);if(btn)btn.classList.toggle('active',code.toLowerCase()===lang);});
+  document.documentElement.lang=lang;
+}
+function setLang(lang){applyLang(lang);closeLang();}
+function toggleLang(){document.getElementById('langDropdown').classList.toggle('open');}
+function closeLang(){document.getElementById('langDropdown').classList.remove('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.lang-switcher'))closeLang();});
+function toggleMenu(){
+  const m=document.getElementById('mobileMenu');const btn=document.getElementById('hamburgerBtn');
+  m.classList.toggle('open');const isOpen=m.classList.contains('open');
+  document.body.style.overflow=isOpen?'hidden':'';
+  if(btn){if(isOpen){btn.innerHTML='<span style="transform:rotate(45deg) translate(4px,4px)"></span><span style="opacity:0;width:22px"></span><span style="transform:rotate(-45deg) translate(4px,-4px)"></span>';}else{btn.innerHTML='<span></span><span></span><span></span>';}}
+}
 function drawKnit(canvas,opts){if(!canvas)return;const{bg,yarn,hi,sh,sw=20,sh2=15}=opts;const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);const cols=Math.ceil(W/sw)+2,rows=Math.ceil(H/sh2)+2;for(let r=-1;r<rows;r++){for(let c=-1;c<cols;c++){const odd=r%2===0;const x=c*sw+(odd?0:sw*.5),y=r*sh2;const cx2=x+sw*.5,cy2=y+sh2*.5,rw=sw*.44,rh=sh2*.38;ctx.beginPath();ctx.ellipse(cx2-sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=sh;ctx.lineWidth=1.8;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2+sw*.2,cy2,rw*.7,rh,0,Math.PI*.15,Math.PI*.85);ctx.strokeStyle=yarn;ctx.lineWidth=2.1;ctx.stroke();ctx.beginPath();ctx.ellipse(cx2,cy2-rh*.3,rw*.55,rh*.35,0,Math.PI,0);ctx.strokeStyle=hi;ctx.lineWidth=1.1;ctx.globalAlpha=.52;ctx.stroke();ctx.globalAlpha=1;}}}
 function init(id,opts){const el=document.getElementById(id);if(!el)return;const pr=window.devicePixelRatio||1;const r=el.parentElement.getBoundingClientRect();el.width=Math.round(r.width*pr)||500;el.height=Math.round(r.height*pr)||400;el.style.width='100%';el.style.height='100%';drawKnit(el,opts);}
-window.addEventListener('load',()=>{init('heroC',{bg:'#e8dac8',yarn:'#c09898',hi:'#d4b0a8',sh:'#a08070',sw:24,sh2:18});init('originC',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:20,sh2:15});});
+window.addEventListener('load',()=>{init('heroC',{bg:'#e8dac8',yarn:'#c09898',hi:'#d4b0a8',sh:'#a08070',sw:24,sh2:18});init('originC',{bg:'#e4cfc0',yarn:'#c09898',hi:'#d0aca4',sh:'#a08070',sw:20,sh2:15});applyLang(currentLang);});
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.08});
 document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
 </script>
