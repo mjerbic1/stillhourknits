@@ -10,7 +10,7 @@
 :root{--ivory:#f8f2e8;--linen:#eeddd0;--parchment:#e4cfc0;--rose:#b07880;--rose-lt:#ccb0b0;--rose-fnt:rgba(176,120,128,.18);--ink:#3a2428;--muted:rgba(58,36,40,.52);--faint:rgba(58,36,40,.1);--fainter:rgba(58,36,40,.06)}
 html{scroll-behavior:smooth}
 body{font-family:'Jost',sans-serif;background:var(--ivory);color:var(--ink);font-weight:300;overflow-x:hidden}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:linear-gradient(to bottom,rgba(248,242,232,.97) 0%,rgba(248,242,232,0) 100%)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:linear-gradient(to bottom,rgba(248,242,232,1) 0%,rgba(248,242,232,.98) 40%,rgba(248,242,232,.85) 65%,rgba(248,242,232,0) 100%)}
 .logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;letter-spacing:.16em;color:var(--ink);text-decoration:none}
 .logo em{font-style:italic;color:var(--rose)}
 .nav-links{display:flex;gap:28px;list-style:none}
@@ -318,7 +318,7 @@ footer{background:var(--ink);padding:52px 56px 32px}
         <li><a href="about.html" data-i18n="nav.about">About</a></li>
         <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
         <li><a href="https://www.ravelry.com/designers/StillHourKnits" target="_blank">Ravelry</a></li>
-        <li><a href="mailto:info@stillhourknits.com">info@stillhourknits.com</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#533a3d353c1320273a3f3f3b3c2621383d3a27207d303c3e"><span class="__cf_email__" data-cfemail="caa3a4aca58ab9bea3a6a6a2a5bfb8a1a4a3beb9e4a9a5a7">[email&#160;protected]</span></a></li>
       </ul>
     </div>
   </div>
@@ -328,7 +328,7 @@ footer{background:var(--ink);padding:52px 56px 32px}
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const i18n = {
   en: {
     "nav.patterns":"Patterns","nav.about":"About","nav.contact":"Contact",
@@ -526,10 +526,4 @@ window.addEventListener('load',()=>{
   init('c2',{bg:'#ddd4c8',yarn:'#b8a898',hi:'#ccc0b0',sh:'#988878',sw:18,sh2:13});
   init('c3',{bg:'#d8e0d4',yarn:'#a8b8a0',hi:'#b8c8b0',sh:'#889880',sw:20,sh2:15});
   init('c4',{bg:'#dcd4dc',yarn:'#b8a8c0',hi:'#ccbcd0',sh:'#988898',sw:18,sh2:13});
-  applyLang(currentLang);
-});
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.08});
-document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
-</script>
-</body>
-</html>
+  apply
